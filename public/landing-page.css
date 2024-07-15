@@ -1,0 +1,520 @@
+/* Global styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    background-color: #fff; /* Default background color */
+    color: #333; /* Default text color */
+    transition: background-color 0.3s ease;
+}
+
+.dark-mode {
+    background-color: #111; /* Dark mode background color */
+    color: #eee; /* Dark mode text color */
+}
+
+.front {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #50c878;
+    transition: background-color 0.3s ease;
+}
+
+
+
+header {
+    padding: 1rem 20px; /* Add horizontal padding */
+    display: flex;
+    justify-content: center; /* Center items horizontally */
+    width: 100%; /* Full width of the container */
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #50c878;
+    z-index: 999;
+    transition: background-color 0.3s ease;
+
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding-left: 5%;
+    padding-right: 5%;  
+}
+
+header .container .logo {
+    font-family: "Emilys Candy", serif;
+    font-size: 3.3rem;
+    font-weight: bold;
+    text-decoration: none; /* Remove underline */
+    color: #111; /* Text color */
+}
+
+nav {
+    display: flex;
+    align-items: center;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin-right: 1.5rem;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #222;
+    font-size: 1.5rem;
+    transition: opacity 0.3s ease;
+}
+
+nav ul li a:hover {
+    opacity: 0.8;
+}
+
+
+
+.login-btn {
+    background-color: #333;
+    color: #fff;
+    padding: 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.signup-btn {
+    border: #111 solid 1px;
+    color: #333;
+    padding: 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+
+
+
+.hero {
+    padding: 5rem 0;
+    color: #fff;
+    display: flex;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 1.24rem 2.5rem;
+    font-size: 1.5rem;
+    background-color: #333; /* Green background */
+    color: #fff; /* White text */
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #3ca06e; /* Darker green on hover */
+}
+
+.hero .container {
+    width: 50%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    padding-right: 5rem;
+    padding-left: 5rem;
+}
+
+
+
+.hero .container h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    font-weight: normal;
+    color: #222;
+    transition: color 0.3s ease;
+    font-family: "Chango", sans-serif;
+}
+
+.hero .container p {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    color: #222;
+    transition: color 0.3s ease;
+
+}
+
+.right {
+    width: 50%;
+}
+
+.right img {
+    width: 80vh;
+    height: 80vh;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 0 20px;
+    width: 100%;
+    transition: color 0.3s ease;
+}
+
+.section-title h2 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    color: #111;
+}
+
+.section-title p {
+    font-size: 1.5rem;
+    line-height: 1.6;
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+.features {
+    padding: 5rem 0;
+    height: 450vh;
+    background-color: #f8f8f8;
+    transition: background-color 0.3s ease;
+    display: block;
+}
+
+.feature-cards {
+    height: 400vh;
+}
+
+.feature-card {
+    padding: 4rem;
+    margin-bottom: 4rem;
+    display: flex;
+    height: 100vh;
+    transition: background-color 0.3s ease;
+}
+
+.feature-card .note {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem;
+    width: 50%;
+    background-color: #f8f8f8;
+    transition: background-color 0.3s ease;
+    
+}
+
+.feature-card .note h3 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    margin-left: 12rem;
+    margin-right: 12rem;
+}
+
+.feature-card .note p {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    color: #666;
+    margin-left: 12rem;
+    margin-right: 12rem;
+}
+
+.feature-card .image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem;
+    width: 50%;
+    background-color: #f0f0f0;
+    transition: background-color 0.3s ease;
+    border-radius: 20px;
+}
+
+.feature-card .image img {
+    height: 80vh;
+    width: 80vh;
+}
+
+.about .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5rem 0;
+}
+
+.about {
+    background-color: #333;
+    transition: background-color 0.3s ease;
+}
+
+.about-title {
+    color: #fff;
+    transition: color 0.3s ease;
+    text-align: center;
+    padding: 3rem;
+    height: 15vh;
+
+}
+
+.about-title h2 {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    font-weight: normal;
+    color: #fff;
+    transition: color 0.3s ease;
+}
+
+.about-title p {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    color: #fff;
+    transition: color 0.3s ease;
+    margin-left: 30rem;
+    margin-right: 30rem;
+}
+
+.card {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    margin: 4rem;
+}
+
+.card h3 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.card p {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.testimonials {
+    background-color: #f0f0f0;
+    padding: 5rem 0;
+    text-align: center;
+}
+
+.testimonial-slideshow {
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial {
+    font-size: 1.6rem;
+    display: none;
+    padding: 2rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial p {
+    font-style: italic;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 3rem 0;
+    text-align: center;
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: opacity 0.3s ease;
+}
+
+footer a:hover {
+    opacity: 0.7;
+}
+
+.dropdown-menu-btn {
+    display: none;
+}
+
+.dropdown-btn {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    display: none;
+}
+
+/* Media Queries for Responsiveness */
+
+@media (max-width: 992px) {
+
+    .dropdown-menu-btn {
+        display: block;
+    }
+
+    nav ul.nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px; /* Adjust according to header height */
+        left: 0;
+        right: 0;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    nav ul.nav-links.show {
+        display: flex;
+    }
+
+    .dropdown-btn {
+        display: block;
+        color: #222;
+    }
+
+
+    nav {
+        display: none;
+    }
+
+    .feature-cards {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    header .container {
+        padding-left: 0.3rem;
+        padding-right: 0.3rem;
+
+    }
+
+    .logo {
+        align-items:first baseline
+    }
+
+    nav {
+        display: none;
+    }
+
+    nav ul {
+        flex-direction: column;
+    }
+
+    nav ul li {
+        margin-bottom: 1rem;
+    }
+
+    .hero {
+        padding: 2rem 1rem;
+    }
+
+    .hero .container {
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    .cta-button {
+        padding: 1rem 2rem;
+        font-size: 1.2rem;
+    }
+
+    .features {
+        padding: 2rem 1rem;
+    }
+
+    .feature-cards {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .about {
+        padding: 2rem 1rem;
+    }
+
+    .testimonials {
+        padding: 2rem 1rem;
+    }
+
+    footer {
+        padding: 2rem 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container .logo {
+        font-size: 2rem;
+    }
+
+    nav ul li a {
+        font-size: 1rem;
+    }
+
+    .hero .container h1 {
+        font-size: 2rem;
+    }
+
+    .hero .container p {
+        font-size: 1rem;
+    }
+
+    .cta-button {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .section-title h2 {
+        font-size: 2rem;
+    }
+
+    .feature-card h3 {
+        font-size: 1.5rem;
+    }
+
+    .feature-card p {
+        font-size: 1rem;
+    }
+
+    .mission h3, .team h3, .values h3 {
+        font-size: 2rem;
+    }
+}

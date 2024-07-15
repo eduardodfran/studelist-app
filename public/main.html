@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Studelist Dashboard</title>
+    <link rel="stylesheet" href="main.css" />
+    <link rel="stylesheet" href="chat.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Emilys+Candy&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="sidebar">
+      <h2>Studelist</h2>
+      <input type="text" placeholder="Search..." />
+      <div class="sidebar-menu">
+        <a href="#" id="dashboardTool" class="active">Dashboard</a>
+        <a href="#" id="notesTool">Notes</a>
+        <a href="#" id="todoTool">To-Do</a>
+        <a href="#" id="eventsTool">Events</a>
+      </div>
+    </div>
+    <div class="content" id="mainContent">
+      <section id="dashboard" class="tool show">
+        <h2>Dashboard</h2>
+        <div class="dashboard-container">
+          <div class="dnotes-card">
+            <div class="dnotes-card-head">
+              <h3>Notes</h3>
+              <p id="notesCount">0</p>
+            </div>
+            <ul id="notesList"></ul>
+          </div>
+          <div class="dtodo-events">
+            <div class="dtodo-card">
+              <div class="dtodo-card-head">
+                <h3>To-Do List</h3>
+                <p id="todoCount">0</p>
+              </div>
+              <ul id="todoList"></ul>
+            </div>
+            <div class="devents-card">
+              <div class="devents-card-head">
+                <h3>Events</h3>
+                <p id="eventsCount">0</p>
+              </div>
+              <ul id="eventsList"></ul>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="notes" class="tool hide">
+        <h2>Notes</h2>
+        <div class="notes-list"></div>
+        <button class="add-note-btn">+ Add Note</button>
+        <form class="note-form" style="display: none">
+          <input type="text" placeholder="Title" id="noteTitle" required />
+          <textarea placeholder="Write your note here..." required></textarea>
+          <button type="submit">Add Note</button>
+        </form>
+        <div id="noteModal" class="modal">
+          <div class="modal-content">
+              <span class="close">&times;</span>
+              <form class="edit-note-form">
+                  <label for="editNoteTitle">Title:</label>
+                  <input type="text" id="editNoteTitle" name="title" required>
+                  <label for="editNoteContent">Content:</label>
+                  <textarea id="editNoteContent" name="content" required></textarea>
+                  <button type="submit">Save Changes</button>
+              </form>
+              <button id="deleteNoteBtn">Delete Note</button>
+          </div>
+      </div>
+      </section>
+      <section id="todo" class="tool hide">
+        <h2>To-Do List</h2>
+        <div class="todo-container">
+          <form class="todo-form">
+            <input type="text" placeholder="Add new task..." id="todoTask" required />
+            <button type="submit" class="add-task-btn">+</button>
+          </form>
+          <ul class="todo-list"></ul>
+        </div>
+        <div class="completed-container">
+          <h3>Completed Tasks</h3>
+          <ul class="completed-list"></ul>
+        </div>
+      </section>
+      <section id="events" class="tool hide">
+        <h2>Events</h2>
+        <div class="event-form-container">
+          <form id="eventForm" class="event-form">
+            <input type="text" id="eventTitle" placeholder="Event Title" required />
+            <textarea id="eventDescription" placeholder="Event Description" required></textarea>
+            <input type="date" id="eventDate" required />
+            <input type="text" id="eventLocation" placeholder="Event Location" required />
+            <input type="time" id="eventTime" required />
+            <button type="submit">Add Event</button>
+          </form>
+        </div>
+        <div class="event-list"></div>
+      </section>
+    </div>
+    <div class="right">
+      <div class="account-container">
+        <div class="profile-picture" id="profilePicture">
+          <!-- Initials will be set dynamically using JavaScript -->
+        </div>
+        <div class="account-right">
+          <h2 class="name" id="name">Loading...</h2>
+          <h5 class="email" id="email">Loading...</h5>
+        </div>
+        <div class="dropdown-menu">
+          <a href="./profile-page/profile.html" id="profile">Profile</a>
+          <a href="index.html" id="logout">Logout</a>
+        </div>
+      </div>
+      <div class="ai-chat">
+        <div class="container">
+          <div class="header">
+            <h1>Studelist Bot</h1>
+          </div>
+          <div class="messages" id="messages">
+            <div class="ai-message">Hi, I'm Studelist. Ask me anything!</div>
+          </div>
+          <div class="input">
+            <form id="form">
+              <input
+                type="text"
+                id="input"
+                placeholder="Type your message..."
+                autocomplete="off"
+              />
+              <button type="submit">Send</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="pomodoro">
+        <button id="pomodoro-btn">
+          <img src="../img/pomodoro-icon.png" alt="Pomodoro" />
+        </button>
+      </div>
+      <div class="popup" id="pomodoro-popup">
+        <div class="popup-content">
+          <h2>Studelist Pomodoro Timer</h2>
+          <div class="timers">
+            <div class="timer">
+              <h3>Stopwatch</h3>
+              <div id="stopwatch">00:00:00</div>
+            </div>
+            <div class="timer">
+              <h3>Pomodoro Timer</h3>
+              <div id="pomodoro-timer">25:00</div>
+              <div id="pomodoro-message" style="display: none">
+                Take a break!
+              </div>
+            </div>
+          </div>
+          <div class="controls">
+            <button id="start-pause">Start</button>
+            <button id="reset">Reset</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="main.js"></script>
+    <script src="./account-container.js"></script>
+    <script src="dashboard.js"></script>
+    <script src="notes.js"></script>
+    <script src="todo.js"></script>
+    <script src="events.js"></script>
+    <script src="./chat.js"></script>
+
+  </body>
+</html>
+
