@@ -10,8 +10,8 @@
       { "src": "/package.json", "use": "@vercel/node" }
     ],
     "routes": [
-      { "src": "/chat/query", "dest": "/routes/chat.js" },
-      { "src": "/(.*)", "dest": "/public/$1" }
+        { "src": "/api/(.*)", "dest": "routes/$1" },
+        { "src": "/(.*)", "dest": "public/$1" }
     ]
   }
   
