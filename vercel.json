@@ -3,6 +3,8 @@
   "builds": [
     { "src": "public/**/*", "use": "@vercel/static" },
     { "src": "public/profile/**/*", "use": "@vercel/static" },
+    { "src": "img/**/*", "use": "@vercel/static" },
+    { "src": "middleware/**/*.js", "use": "@vercel/node" },
     { "src": "routes/**/*.js", "use": "@vercel/node" },
     { "src": "server/**/*.js", "use": "@vercel/node" },
     { "src": "package.json", "use": "@vercel/node" }
@@ -10,7 +12,7 @@
   "routes": [
     { "src": "/api/(.*)", "dest": "/routes/$1" },
     { "src": "/public/profile/(.*)", "dest": "/public/profile/$1" },
+    { "src": "/img/(.*)", "dest": "/img/$1" },
     { "src": "/(.*)", "dest": "/public/$1" }
   ]
 }
-
