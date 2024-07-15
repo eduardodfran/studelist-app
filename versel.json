@@ -2,15 +2,14 @@
   "version": 2,
   "builds": [
     { "src": "public/**/*", "use": "@vercel/static" },
-    { "src": "profile/**/*", "use": "@vercel/static" },
-    { "src": "img/**/*", "use": "@vercel/static" },
-    { "src": "middleware/**/*.js", "use": "@vercel/node" },
+    { "src": "public/profile/**/*", "use": "@vercel/static" },
     { "src": "routes/**/*.js", "use": "@vercel/node" },
     { "src": "server/**/*.js", "use": "@vercel/node" },
     { "src": "package.json", "use": "@vercel/node" }
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "/routes/$1" },
+    { "src": "/public/profile/(.*)", "dest": "/public/profile/$1" },
     { "src": "/(.*)", "dest": "/public/$1" }
   ]
 }
