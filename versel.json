@@ -1,0 +1,17 @@
+{
+    "version": 2,
+    "builds": [
+      { "src": "/public/**/*", "use": "@vercel/static" },
+      { "src": "/profile/**/*", "use": "@vercel/static" },
+      { "src": "/img/**/*", "use": "@vercel/static" },
+      { "src": "/middleware/**/*", "use": "@vercel/node" },
+      { "src": "/routes/**/*", "use": "@vercel/node" },
+      { "src": "/server/**/*", "use": "@vercel/node" },
+      { "src": "/package.json", "use": "@vercel/node" }
+    ],
+    "routes": [
+      { "src": "/chat/query", "dest": "/routes/chat.js" },
+      { "src": "/(.*)", "dest": "/public/$1" }
+    ]
+  }
+  
