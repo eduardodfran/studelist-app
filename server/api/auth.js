@@ -1,3 +1,5 @@
+// auth.js
+
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -40,33 +42,44 @@ router.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
     try {
+        // Check if email exists
         const [user] = await query('SELECT * FROM users WHERE email = ?', [email]);
 
-        if (!user) {
-            return res.status(400).json({ success: false, message: 'Invalid email or password' });
+        if (user.length === 0) {
+            return res.status(401).json({ success: false, message: 'Invalid email or password' });
         }
 
-        const userData = user[0];
-        const isMatch = await bcrypt.compare(password, userData.password);
+        // Validate password
+        const passwordMatch = await bcrypt.compare(password, user[0].password);
 
-        if (!isMatch) {
-            return res.status(400).json({ success: false, message: 'Invalid email or password' });
+        if (!passwordMatch) {
+            return res.status(401).json({ success: false, message: 'Invalid email or password' });
         }
 
         // Generate JWT token
-        const token = jwt.sign({ id: userData.id }, jwtSecret, { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user[0].id }, jwtSecret, { expiresIn: '1h' });
 
-        // Determine which webpage to redirect based on user data (example: username or role-based)
-        let redirectUrl = 'main.html'; // Default redirection URL
-
-        // Customize redirect based on user data (e.g., username or role)
-        // Example: if (userData.username === 'clientA') { redirectUrl = 'clientA.html'; }
-
-        // Send response with token and redirect URL
-        res.status(200).json({ success: true, token, redirectUrl, message: 'Logged in successfully' });
+        res.status(200).json({ success: true, message: 'Login successful', token });
     } catch (error) {
         console.error('Error during login:', error);
         res.status(500).json({ success: false, message: 'Error logging in. Please try again later.' });
+    }
+});
+
+router.get('/verify', async (req, res) => {
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if (!token) {
+        return res.status(401).json({ success: false, message: 'Unauthorized' });
+    }
+
+    try {
+        jwt.verify(token, jwtSecret);
+        res.status(200).json({ success: true, message: 'Token verified' });
+    } catch (error) {
+        console.error('Error verifying token:', error.message);
+        res.status(401).json({ success: false, message: 'Invalid or expired token' });
     }
 });
 

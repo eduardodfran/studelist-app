@@ -1,4 +1,5 @@
 // login.js
+
 document.getElementById('loginButton').addEventListener('click', async () => {
     const email = document.getElementById('loginEmail').value.trim();
     const password = document.getElementById('loginPassword').value.trim();
@@ -39,4 +40,3 @@ document.getElementById('loginButton').addEventListener('click', async () => {
         document.getElementById('loginStatus').textContent = error.message || 'Error logging in. Please try again later.';
     }
 });
-
