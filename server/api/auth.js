@@ -1,9 +1,7 @@
-// auth.js
-
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const pool = require('../server/db'); // Adjust path based on your project structure
+const { query } = require('../db'); // Import the query function from db.js
 const router = express.Router();
 const jwtSecret = 'your_jwt_secret'; // Replace with your actual JWT secret
 
@@ -18,7 +16,7 @@ router.post('/signup', async (req, res) => {
         }
 
         // Check if username or email already exists
-        const [existingUser] = await pool.query('SELECT * FROM users WHERE username = ? OR email = ?', [username, email]);
+        const [existingUser] = await query('SELECT * FROM users WHERE username = ? OR email = ?', [username, email]);
 
         if (existingUser.length > 0) {
             return res.status(400).json({ success: false, message: 'Username or email already exists' });
@@ -28,7 +26,7 @@ router.post('/signup', async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Insert new user into database
-        await pool.query('INSERT INTO users (first_name, last_name, dob, username, email, password) VALUES (?, ?, ?, ?, ?, ?)', [firstName, lastName, dob, username, email, hashedPassword]);
+        await query('INSERT INTO users (first_name, last_name, dob, username, email, password) VALUES (?, ?, ?, ?, ?, ?)', [firstName, lastName, dob, username, email, hashedPassword]);
 
         res.status(201).json({ success: true, message: 'User registered successfully' });
     } catch (error) {
@@ -42,9 +40,9 @@ router.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        const [user] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
+        const [user] = await query('SELECT * FROM users WHERE email = ?', [email]);
 
-        if (user.length === 0) {
+        if (!user) {
             return res.status(400).json({ success: false, message: 'Invalid email or password' });
         }
 

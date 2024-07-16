@@ -1,15 +1,15 @@
 const express = require('express');
+const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const authAPI = require('../api/auth'); // Auth API
-const accountContainerAPI = require('../api/account-container'); // Profile API
-const notesAPI = require('../api/notes'); // Notes API
-const todoAPI = require('../api/todo'); // Todo API
-const eventsAPI = require('../api/events'); // Events API
-const profileAPI = require('../api/profile'); // Profile API
-const chatAPI = require('../api/chat'); // Chatbot API
 
-const app = express();
+const authAPI = require('./api/auth');
+const accountContainerAPI = require('./api/account-container');
+const notesAPI = require('./api/notes');
+const todoAPI = require('./api/todo');
+const eventsAPI = require('./api/events');
+const profileAPI = require('./api/profile');
+const chatAPI = require('./api/chat');
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -20,10 +20,11 @@ app.use('/api/notes', notesAPI);
 app.use('/api/todo', todoAPI);
 app.use('/api/events', eventsAPI);
 app.use('/api/profile', profileAPI);
-app.use('/api/chat', chatAPI); // Add chatbot API
+app.use('/api/chat', chatAPI);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
+
 

@@ -23,14 +23,12 @@ document.getElementById('loginButton').addEventListener('click', async () => {
         }
 
         if (response.ok && data.success) {
-            // Store the token in localStorage
             localStorage.setItem('token', data.token);
 
             document.getElementById('loginStatus').textContent = 'Login successful!';
             console.log('Login successful!');
-            // Delay the redirection to allow the user to see the success message
             setTimeout(() => {
-                window.location.href = "main.html"; // Redirect to main.html after successful login
+                window.location.href = "main.html";
             }, 1000);
         } else {
             console.error('Error during login:', data.message || 'Unknown error.');
@@ -41,3 +39,4 @@ document.getElementById('loginButton').addEventListener('click', async () => {
         document.getElementById('loginStatus').textContent = error.message || 'Error logging in. Please try again later.';
     }
 });
+

@@ -2,9 +2,9 @@
     "name": "studelist-app",
     "version": "0.0.2",
     "description": "A student-focused tool for student success.",
-    "main": "server/server.js",
+    "main": "server/index.js",
     "scripts": {
-        "start": "node server/server.js"
+        "start": "node server/index.js"
     },
     "dependencies": {
         "@google-cloud/dialogflow": "^6.7.0",

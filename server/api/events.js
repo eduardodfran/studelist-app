@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const pool = require('../server/db');
+const pool = require('../db');
 const verifyToken = require('../middleware/verifyToken');
 
 // Get all events for a user

@@ -2,7 +2,7 @@
 
 import express from 'express';
 import { SessionsClient } from '@google-cloud/dialogflow';
-import pool from '../server/db'; // Assuming you have a MySQL pool configured in db.js
+import pool from '../db'; // Assuming you have a MySQL pool configured in db.js
 
 const router = express.Router();
 const projectId = 'your-project-id'; // Replace with your Dialogflow Project ID

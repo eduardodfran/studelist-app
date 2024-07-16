@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const dialogflow = require('dialogflow');
-const pool = require('../server/db'); // Import your MySQL pool
+const pool = require('../db');
 const verifyToken = require('../middleware/verifyToken');
 
 // Dialogflow configuration
