@@ -389,7 +389,7 @@ footer a:hover {
         display: none;
         flex-direction: column;
         position: absolute;
-        top: 60px; /* Adjust according to header height */
+        top: 100%;
         left: 0;
         right: 0;
         background-color: #fff;
@@ -398,7 +398,88 @@ footer a:hover {
 
     nav ul.nav-links.show {
         display: flex;
+        animation: fadein 0.3s ease;
     }
+
+    @keyframes fadein {
+        0% {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .front .hero {
+        display: block;
+    }
+
+    .front .hero .container {
+        margin-top: 2.5rem;
+        width: 100%;
+    }
+
+    .right {
+        width: 100%;
+    }
+
+    .right img {
+        width: 100%;
+    }
+
+    .features {
+        height: 258vh;
+    }
+    .feature-card {
+        display: block;
+        height: 50vh;
+    }
+
+    .feature-card .image {
+        width: 100%;
+        height: 300px;
+        border-radius: 0;
+    }
+
+    .feature-card .image img {
+        width: 200px;
+        height: 200px;
+        margin: 0 auto;
+    }
+
+    .feature-card .note {
+        width: 100%;
+        margin-top: 2rem;
+        background-color: #eee;
+    }
+
+    .feature-card .note p {
+        margin: 0.5rem 0;
+        font-size: 1.5rem;
+
+    }
+
+    .feature-card .note h3 {
+        font-size: 2.5rem;
+        margin: 0.5rem 0;
+    }
+
+    .about-title p {
+        width: 100%;
+        margin: 0;
+    }
+
+    .testimonial-slideshow {
+        margin: 2rem;
+    }
+
+    .about .container {
+        display: block;
+    }
+
+
 
     .dropdown-btn {
         display: block;

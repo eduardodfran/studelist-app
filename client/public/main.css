@@ -798,3 +798,106 @@ body {
 }
 
 
+
+@media (max-width: 992px) {
+  body {
+    display: block;
+  }
+
+  .sidebar {
+    height: 140px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .sidebar-menu {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    background-color: #333;
+    border-radius: 1.2rem;
+    margin: 0;
+    padding: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+
+  .sidebar-menu a {
+    margin-right: 50px;
+    font-size: 20px;
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    padding: 1rem;
+    border-radius: 0;
+    margin-bottom: 0;
+  }
+
+  .sidebar-menu a:hover {
+    color: #f2f2f2;
+  }
+
+
+
+  .dropdown-menu {
+    width: 100%;
+  }
+
+  .content {
+    margin-top: 150px;
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .todo-list li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .todo-list li input[type="checkbox"] {
+    margin-right: 0;
+  }
+
+  .completed-list li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .event-form input[type="text"],
+  .event-form textarea,
+  .event-form input[type="date"],
+  .event-form input[type="time"],
+  .event-form button {
+    width: 100%;
+  }
+
+  .event-item {
+    margin-bottom: 10px;
+  }
+
+  .right {
+    position: fixed;
+    background-color: #333;
+    height: 120px;
+    bottom: 0;
+    width: 100%;
+  }
+
+  .account-container {
+    left: 10px;
+    bottom: 15px;
+    mar
+  }
+
+  .account-right {
+    margin-left: 0;
+  }
+
+  .profile-picture {
+    margin-right: 0;
+  }
+
+  .ai-chat {
+    display: none;
+  }
+}

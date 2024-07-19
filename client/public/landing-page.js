@@ -16,11 +16,12 @@ function showTestimonial() {
 }
 
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const dropdownBtn = document.querySelector('.dropdown-btn');
     const navLinks = document.querySelector('.responsive-ul');
 
-    dropdownBtn.addEventListener('click', function() {
-        navLinks.classList.toggle('show');
+    dropdownBtn.addEventListener('click', function () {
+        navLinks.classList.toggle('show-links');
     });
 });
+

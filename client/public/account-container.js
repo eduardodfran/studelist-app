@@ -5,27 +5,26 @@ document.addEventListener('DOMContentLoaded', async function () {
             throw new Error('No token found');
         }
 
-        const data = {
-            success: true,
-            user: {
-                first_name: 'John',
-                last_name: 'Doe',
-                email: 'john.doe@example.com',
-                profile_picture: 'https://example.com/profile.jpg'
+        const response = await fetch('http://localhost:3000/api/account-container', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             }
-        };
+        });
 
-        if (!data.success) {
-            throw new Error(data.message);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch user profile: ${await response.text()}`);
         }
 
-        const { user } = data;
+        const data = await response.json();
+        console.log('Full response data:', data);
 
-        if (!user) {
+        if (!data.user) {
             throw new Error('User data not found in response');
         }
 
-        const { first_name, last_name, email, profile_picture } = user;
+        const { first_name, last_name, email, profile_picture } = data.user;
 
         if (!first_name || !last_name || !email) {
             throw new Error('Missing required user data');
@@ -39,7 +38,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         const profilePictureElement = document.getElementById('profilePicture');
         if (profile_picture) {
             profilePictureElement.style.backgroundImage = `url(${profile_picture})`;
-            profilePictureElement.textContent = '';
+            profilePictureElement.textContent = ''; // Clear initials if profile picture exists
         } else {
             // Set profile picture initials
             const initials = `${first_name[0]}${last_name[0]}`;
@@ -48,12 +47,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     } catch (error) {
         console.error('Error fetching user profile:', error);
-
-        const errorMessage = error.message || 'Unknown error';
-        const errorElement = document.getElementById('errorMessage');
-        if (errorElement) {
-            errorElement.textContent = errorMessage;
-        }
+        // Add logic to display error to user (e.g., update UI with error message)
     }
 });
 
