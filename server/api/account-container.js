@@ -10,14 +10,14 @@ router.get('/', async (req, res) => {
     try {
         const token = req.headers.authorization?.split(' ')[1];
         if (!token) {
-            return res.status(401).json({ success: false, message: 'Unauthorized' });
+            return res.status(401).json({ error: 'Unauthorized' });
         }
 
         const { id } = jwt.verify(token, jwtSecret);
         const [users] = await pool.query('SELECT * FROM users WHERE id = ?', [id]);
         
         if (users.length === 0) {
-            return res.status(404).json({ success: false, message: 'User not found' });
+            return res.status(404).json({ error: 'User not found' });
         }
 
         const user = users[0];
@@ -29,12 +29,11 @@ router.get('/', async (req, res) => {
                 last_name: user.last_name,
                 email: user.email,
                 profile_picture: user.profile_picture,
-                // Add other fields as needed
             }
         });
     } catch (error) {
         console.error('Error fetching user profile:', error);
-        res.status(500).json({ success: false, message: 'Error fetching user profile' });
+        res.status(500).json({ error: 'Error fetching user profile' });
     }
 });
 

@@ -5,21 +5,15 @@ document.addEventListener('DOMContentLoaded', async function () {
             throw new Error('No token found');
         }
 
-        const response = await fetch('http://localhost:3000/api/account-container', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+        const data = {
+            success: true,
+            user: {
+                first_name: 'John',
+                last_name: 'Doe',
+                email: 'john.doe@example.com',
+                profile_picture: 'https://example.com/profile.jpg'
             }
-        });
-
-        if (!response.ok) {
-            const errorMessage = await response.text();
-            throw new Error(`Failed to fetch user profile: ${errorMessage}`);
-        }
-
-        const data = await response.json();
-        console.log('Full response data:', data);
+        };
 
         if (!data.success) {
             throw new Error(data.message);
@@ -62,4 +56,5 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
     }
 });
+
 
