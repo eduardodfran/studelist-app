@@ -379,7 +379,7 @@ footer a:hover {
 
 /* Media Queries for Responsiveness */
 
-@media (max-width: 992px) {
+@media (max-width: 1000px) {
 
     .dropdown-menu-btn {
         display: block;
@@ -432,6 +432,7 @@ footer a:hover {
     .features {
         height: 258vh;
     }
+
     .feature-card {
         display: block;
         height: 50vh;
@@ -496,106 +497,97 @@ footer a:hover {
     }
 }
 
-@media (max-width: 768px) {
-    .container {
-        flex-direction: column;
-        padding-left: 1rem;
-        padding-right: 1rem;
+@media (max-width: 480px) {
+
+    .front .hero {
+        height: 100vh;
     }
 
-    header .container {
-        padding-left: 0.3rem;
-        padding-right: 0.3rem;
+    .front .hero .container {
+        margin-top: 1.5rem;
+        padding: 1.5rem;
 
     }
 
-    .logo {
-        align-items:first baseline
+    .front .hero .container h1 {
+        font-size: 2rem;
     }
 
-    nav {
-        display: none;
-    }
-
-    nav ul {
-        flex-direction: column;
-    }
-
-    nav ul li {
-        margin-bottom: 1rem;
-    }
-
-    .hero {
-        padding: 2rem 1rem;
-    }
-
-    .hero .container {
-        padding-right: 0;
-        padding-left: 0;
-    }
-
-    .cta-button {
-        padding: 1rem 2rem;
+    .front .hero .container p {
         font-size: 1.2rem;
     }
 
-    .features {
-        padding: 2rem 1rem;
-    }
-
-    .feature-cards {
-        padding-left: 1rem;
-        padding-right: 1rem;
-    }
-
-    .about {
-        padding: 2rem 1rem;
-    }
-
-    .testimonials {
-        padding: 2rem 1rem;
-    }
-
-    footer {
-        padding: 2rem 1rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .container .logo {
-        font-size: 2rem;
-    }
-
-    nav ul li a {
-        font-size: 1rem;
-    }
-
-    .hero .container h1 {
-        font-size: 2rem;
-    }
-
-    .hero .container p {
-        font-size: 1rem;
-    }
-
     .cta-button {
-        padding: 0.8rem 1.5rem;
         font-size: 1rem;
+        padding: 0.8rem 1.5rem;
     }
 
-    .section-title h2 {
+    
+
+    .front .hero .right img {
+        height: 400px;
+        width: 400px;
+    }
+
+    .features {
+        height: 280vh;
+    }
+
+    .feature-card {
+        height: 50vh;
+        padding: 0;
+    }
+
+    .feature-card .image img {
+        width: 200px;
+        height: 200px;
+        margin: 0 auto;
+    }
+
+    .feature-card .image {
+        height: 300px;
+    }
+
+    .feature-card .note {
+        margin-top: 2rem;
+        background-color: #eee;
+        margin: 0;
+        width: 100%;
+    }
+
+    .feature-card .note p {
+        margin: 0.5rem 0;
+        font-size: 1rem;
+
+    }
+
+    .feature-card .note h3 {
+        font-size: 1.5rem;
+        margin: 0.5rem 0;
+    }
+
+    .about-title {
+        height: 350px;
+    }
+
+    .about-title h2 {
         font-size: 2rem;
     }
 
-    .feature-card h3 {
+    .about-title p {
+        font-size: 1.2rem;
+    }
+
+    .about .container {
+        padding-top: 0;
+    }
+
+    .about .container p {
+        font-size: 1.2rem;
+    }
+
+    .about .container h3 {
         font-size: 1.5rem;
     }
 
-    .feature-card p {
-        font-size: 1rem;
-    }
-
-    .mission h3, .team h3, .values h3 {
-        font-size: 2rem;
-    }
 }
