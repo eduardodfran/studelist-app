@@ -2,14 +2,18 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../db');
 const jwt = require('jsonwebtoken');
-const verifyToken = require('../middleware/verifyToken');
 
 // Endpoint to get user profile
-const jwtSecret = 'your_jwt_secret'; // Make sure to define this securely
+const jwtSecret = process.env.JWT_SECRET || 'your_jwt_secret'; // Make sure to define this securely
 
-router.get('/', verifyToken, async (req, res) => {
+router.get('/', async (req, res) => {
     try {
-        const { id } = jwt.verify(req.headers.authorization.split(' ')[1], jwtSecret);
+        const token = req.headers.authorization?.split(' ')[1];
+        if (!token) {
+            return res.status(401).json({ success: false, message: 'Unauthorized' });
+        }
+
+        const { id } = jwt.verify(token, jwtSecret);
         const [users] = await pool.query('SELECT * FROM users WHERE id = ?', [id]);
         
         if (users.length === 0) {
@@ -35,3 +39,4 @@ router.get('/', verifyToken, async (req, res) => {
 });
 
 module.exports = router;
+
