@@ -1,3 +1,4 @@
+
 const express = require('express');
 const router = express.Router();
 const pool = require('../db');
@@ -56,7 +57,7 @@ router.put('/:id', verifyToken, async (req, res) => {
 // Delete a note
 router.delete('/:id', verifyToken, async (req, res) => {
     const { id } = req.params;
-    const userId = req.userId;
+    const userId = req.user;
 
     try {
         const [result] = await pool.query('DELETE FROM notes WHERE id = ? AND user_id = ?', [id, userId]);
@@ -72,15 +73,14 @@ router.delete('/:id', verifyToken, async (req, res) => {
 
 // Fetch summarized notes data for the dashboard
 router.get('/summary', verifyToken, async (req, res) => {
-    const userId = req.userId;
     try {
-        const [rows] = await pool.query('SELECT id, title FROM notes WHERE user_id = ?', [userId]);
-        res.json(rows);
-    } catch (err) {
-        console.error('Error fetching notes summary:', err);
-        res.status(500).json({ error: 'Failed to fetch notes summary' });
+      const [notes] = await pool.query('SELECT title FROM notes WHERE user_id = ?', [req.userId]);
+      res.status(200).json(notes);
+    } catch (error) {
+      console.error('Error fetching notes summary:', error);
+      res.status(500).json({ message: 'Error fetching notes summary' });
     }
-});
+  });
 
 module.exports = router;
 

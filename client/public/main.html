@@ -15,39 +15,88 @@
   </head>
   <body>
     <div class="sidebar">
-      <h2>Studelist</h2>
       <div class="sidebar-menu">
+        <h2>Studelist</h2>
         <a href="#" id="dashboardTool" class="active">Dashboard</a>
         <a href="#" id="notesTool">Notes</a>
         <a href="#" id="todoTool">To-Do</a>
         <a href="#" id="eventsTool">Events</a>
+        <!-- <a href="#" id="aiTool">Studelist Bot</a> -->
       </div>
+
+
+      <div class="bottom">
+        <div class="account-container-wrapper">
+          <div class="account-container">
+            <div class="profile-picture" id="profilePicture">
+              <!-- Initials will be set dynamically using JavaScript -->
+            </div>
+            <div class="account-right">
+              <h2 class="name" id="name">Loading...</h2>
+              <h5 class="email" id="email">Loading...</h5>
+            </div>
+          </div>
+          <div class="dropdown-menu" id="dropdownMenu">
+            <a href="index.html" id="logout">Logout</a>
+          </div>
+        </div>
+      </div>
+      
+      
+
+      <!-- <div class="ai-chat">
+        <div class="container">
+          <div class="header">
+            <h1>Studelist Bot</h1>
+          </div>
+          <div class="messages" id="messages">
+            <div class="ai-message">Hi, I'm Studelist. Ask me anything!</div>
+          </div>
+          <div class="input">
+            <form id="form">
+              <input
+                type="text"
+                id="input"
+                placeholder="Type your message..."
+                autocomplete="off"
+              />
+              <button type="submit">Send</button>
+            </form>
+          </div>
+        </div>
+      </div> -->
     </div>
     <div class="content" id="mainContent">
       <section id="dashboard" class="tool show">
         <h2>Dashboard</h2>
         <div class="dashboard-container">
-          <div class="dnotes-card">
-            <div class="dnotes-card-head">
+          <div class="card dnotes-card">
+            <div class="card-head dnotes-card-head">
               <h3>Notes</h3>
-              <p id="notesCount">0</p>
+              <p id="notesCount">4</p>
             </div>
-            <ul id="notesList"></ul>
+            <ul id="notesList">
+
+            </ul>
           </div>
-          <div class="dtodo-events">
-            <div class="dtodo-card">
-              <div class="dtodo-card-head">
+          <div class="dashboard-row">
+            <div class="card dtodo-card">
+              <div class="card-head dtodo-card-head">
                 <h3>To-Do List</h3>
-                <p id="todoCount">0</p>
+                <p id="todoCount">3</p>
               </div>
-              <ul id="todoList"></ul>
+              <ul id="todoList">
+
+              </ul>
             </div>
-            <div class="devents-card">
-              <div class="devents-card-head">
+            <div class="card devents-card">
+              <div class="card-head devents-card-head">
                 <h3>Events</h3>
-                <p id="eventsCount">0</p>
+                <p id="eventsCount">1</p>
               </div>
-              <ul id="eventsList"></ul>
+              <ul id="eventsList">
+
+              </ul>
             </div>
           </div>
         </div>
@@ -105,40 +154,7 @@
       </section>
     </div>
     <div class="right">
-      <div class="account-container">
-        <div class="profile-picture" id="profilePicture">
-          <!-- Initials will be set dynamically using JavaScript -->
-        </div>
-        <div class="account-right">
-          <h2 class="name" id="name">Loading...</h2>
-          <h5 class="email" id="email">Loading...</h5>
-        </div>
-        <div class="dropdown-menu">
-          <a href="./profile-page/profile.html" id="profile">Profile</a>
-          <a href="index.html" id="logout">Logout</a>
-        </div>
-      </div>
-      <div class="ai-chat">
-        <div class="container">
-          <div class="header">
-            <h1>Studelist Bot</h1>
-          </div>
-          <div class="messages" id="messages">
-            <div class="ai-message">Hi, I'm Studelist. Ask me anything!</div>
-          </div>
-          <div class="input">
-            <form id="form">
-              <input
-                type="text"
-                id="input"
-                placeholder="Type your message..."
-                autocomplete="off"
-              />
-              <button type="submit">Send</button>
-            </form>
-          </div>
-        </div>
-      </div>
+      
       <div class="pomodoro">
         <button id="pomodoro-btn">
           <img src="/pomodoro-icon.png" alt="Pomodoro" />
@@ -167,12 +183,12 @@
         </div>
       </div>
     </div>
-    <script src="main.js"></script>
+    <script src="./main.js"></script>
     <script src="./account-container.js"></script>
-    <script src="dashboard.js"></script>
-    <script src="notes.js"></script>
-    <script src="todo.js"></script>
-    <script src="events.js"></script>
+    <script src="./dashboard.js"></script>
+    <script src="./notes.js"></script>
+    <script src="./todo.js"></script>
+    <script src="./events.js"></script>
     <script src="./chat.js"></script>
 
   </body>

@@ -17,11 +17,18 @@ function showTestimonial() {
 
 
 document.addEventListener("DOMContentLoaded", function () {
-    const dropdownBtn = document.querySelector('.dropdown-btn');
-    const navLinks = document.querySelector('.responsive-ul');
+  const dropdownBtn = document.querySelector('.dropdown-btn');
+  const closeBtn = document.querySelector('.close-btn');
+  const dropdownMenu = document.querySelector('.dropdown-menu');
+  const dropdownMenuBtn = document.querySelector('.dropdown-menu-btn');
 
-    dropdownBtn.addEventListener('click', function () {
-        navLinks.classList.toggle('show-links');
-    });
+  dropdownBtn.addEventListener('click', function () {
+    dropdownMenu.classList.toggle('show');
+    dropdownMenuBtn.classList.toggle('show');
+  });
+
+  closeBtn.addEventListener('click', function () {
+    dropdownMenu.classList.remove('show');
+    dropdownMenuBtn.classList.remove('show');
+  });
 });
-

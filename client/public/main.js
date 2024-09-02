@@ -1,26 +1,25 @@
 // main.js
 
-/* DOM elements */
-const dashboardSection = document.getElementById('dashboard');
-const notesSection = document.getElementById('notes');
-const todoSection = document.getElementById('todo');
-const eventsSection = document.getElementById('events');
+const dashboardSection = document.querySelector('#dashboard');
+const notesSection = document.querySelector('#notes');
+const todoSection = document.querySelector('#todo');
+const eventsSection = document.querySelector('#events');
 
-const dashboardTool = document.getElementById('dashboardTool');
-const notesTool = document.getElementById('notesTool');
-const todoTool = document.getElementById('todoTool');
-const eventsTool = document.getElementById('eventsTool');
+const dashboardTool = document.querySelector('#dashboardTool');
+const notesTool = document.querySelector('#notesTool');
+const todoTool = document.querySelector('#todoTool');
+const eventsTool = document.querySelector('#eventsTool');
 
-const pomodoroBtn = document.getElementById('pomodoro-btn');
-const pomodoroPopup = document.getElementById('pomodoro-popup');
-const startPauseBtn = document.getElementById('start-pause');
-const resetBtn = document.getElementById('reset');
-const stopwatchDisplay = document.getElementById('stopwatch');
-const pomodoroDisplay = document.getElementById('pomodoro-timer');
-const pomodoroMessage = document.getElementById('pomodoro-message');
+const pomodoroBtn = document.querySelector('#pomodoro-btn');
+const pomodoroPopup = document.querySelector('#pomodoro-popup');
+const startPauseBtn = document.querySelector('#start-pause');
+const resetBtn = document.querySelector('#reset');
+const stopwatchDisplay = document.querySelector('#stopwatch');
+const pomodoroDisplay = document.querySelector('#pomodoro-timer');
+const pomodoroMessage = document.querySelector('#pomodoro-message');
 
-const profileLink = document.getElementById('profile');
-const logoutLink = document.getElementById('logout');
+const profileLink = document.querySelector('#profile');
+const logoutLink = document.querySelector('#logout');
 
 // Initial setup
 document.addEventListener('DOMContentLoaded', function () {

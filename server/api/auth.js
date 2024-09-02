@@ -1,9 +1,8 @@
-// auth.js
-
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { query } = require('../db'); // Import the query function from db.js
+const passport = require('passport');
 const router = express.Router();
 const jwtSecret = 'your_jwt_secret'; // Replace with your actual JWT secret
 
@@ -39,6 +38,9 @@ router.post('/signup', async (req, res) => {
 
 // POST /api/auth/login
 router.post('/login', async (req, res) => {
+    console.log('Login route hit');
+    console.log('Request body:', req.body);
+
     const { email, password } = req.body;
 
     try {
@@ -57,7 +59,7 @@ router.post('/login', async (req, res) => {
         }
 
         // Generate JWT token
-        const token = jwt.sign({ userId: user[0].id }, jwtSecret, { expiresIn: '1h' });
+        const token = jwt.sign({ id: user[0].id }, jwtSecret, { expiresIn: '1h' });
 
         res.status(200).json({ success: true, message: 'Login successful', token });
     } catch (error) {
@@ -67,20 +69,53 @@ router.post('/login', async (req, res) => {
 });
 
 router.get('/verify', async (req, res) => {
-    const authHeader = req.headers.authorization;
-    const token = authHeader && authHeader.split(' ')[1];
+  const authHeader = req.headers.authorization
+  const token = authHeader && authHeader.split(' ')[1]
 
-    if (!token) {
-        return res.status(401).json({ success: false, message: 'Unauthorized' });
-    }
+  if (!token) {
+    return res.status(401).json({ success: false, message: 'Unauthorized' })
+  }
 
-    try {
-        jwt.verify(token, jwtSecret);
-        res.status(200).json({ success: true, message: 'Token verified' });
-    } catch (error) {
-        console.error('Error verifying token:', error.message);
-        res.status(401).json({ success: false, message: 'Invalid or expired token' });
-    }
-});
+  try {
+    jwt.verify(token, jwtSecret)
+    res.status(200).json({ success: true, message: 'Token verified' })
+  } catch (error) {
+    console.error('Error verifying token:', error.message)
+    res
+      .status(401)
+      .json({ success: false, message: 'Invalid or expired token' })
+  }
+})
 
-module.exports = router;
+// GET /api/auth/google
+router.get(
+  '/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] })
+)
+
+// GET /api/auth/google/callback
+router.get(
+  '/google/callback',
+  passport.authenticate('google', { failureRedirect: '/login.html' }),
+  (req, res) => {
+    // Successful authentication
+    const token = jwt.sign({ userId: req.user.id }, jwtSecret, {
+      expiresIn: '1h',
+    })
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+    })
+    res.redirect('/main.html')
+  }
+)
+
+// Add a route to handle logout
+router.get('/logout', (req, res) => {
+  res.clearCookie('token')
+  req.logout()
+  res.redirect('/')
+})
+
+module.exports = router

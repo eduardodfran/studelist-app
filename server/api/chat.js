@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const dialogflow = require('dialogflow');
+const dialogflow = require('@google-cloud/dialogflow');
 const pool = require('../db');
 const verifyToken = require('../middleware/verifyToken');
 
@@ -17,6 +17,7 @@ router.post('/query', verifyToken, async (req, res) => {
   const userId = req.userId; // Get user ID from session or authentication
 
   // Construct request for Dialogflow
+  const sessionPath = sessionClient.projectAgentSessionPath(projectId, userId);
   const request = {
     session: sessionPath,
     queryInput: {
@@ -38,7 +39,7 @@ router.post('/query', verifyToken, async (req, res) => {
       res.json(notesResponse);
     } else {
       // Handle other intents or fallbacks
-      res.json({ message: JSON.stringify(result.fulfillmentText) });
+      res.json({ message: result.fulfillmentText });
     }
   } catch (error) {
     console.error('Error querying Dialogflow:', error);
@@ -52,7 +53,7 @@ async function handleListNotes(userId) {
     const [rows] = await pool.query('SELECT title FROM notes WHERE user_id = ?', [userId]);
 
     if (rows.length > 0) {
-      const noteTitles = rows.map(note => note.title).join(', ');
+      const noteTitles = rows.map(row => row.title).join(', ');
       return { message: `Your notes include: ${noteTitles}` };
     } else {
       return { message: "You don't have any notes." };
