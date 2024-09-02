@@ -25,7 +25,8 @@ const allowedOrigins = [
   'https://studelist-app-frontend.vercel.app' // Deployed frontend
 ];
 
-app.use(cors({
+// CORS configuration
+const corsOptions = {
   origin: function (origin, callback) {
     if (allowedOrigins.indexOf(origin) !== -1 || !origin) { // Allow localhost (when testing from Postman) or origins in the list
       callback(null, true);
@@ -33,8 +34,12 @@ app.use(cors({
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true // Allow cookies to be sent with requests
-}));
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Ensure OPTIONS is included
+  allowedHeaders: ['Content-Type', 'Authorization'], // Include custom headers
+  credentials: true // Allow credentials (cookies, etc.)
+};
+
+app.use(cors(corsOptions));
 
 // Security headers with Helmet
 app.use(helmet());
@@ -54,14 +59,6 @@ app.use((req, res, next) => {
 // Body parsing middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-// Enable CORS
-const corsOptions = {
-    origin: 'https://studelist-app-frontend.vercel.app/', // Replace with your frontend domain
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-};
-app.use(cors(corsOptions));
 
 // Session management
 app.use(
