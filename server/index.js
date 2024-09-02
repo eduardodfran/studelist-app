@@ -12,6 +12,7 @@ const todoAPI = require('./api/todo');
 const eventsAPI = require('./api/events');
 const profileAPI = require('./api/profile');
 const chatAPI = require('./api/chat');
+const path = require('path');
 
 // Load environment variables from .env file
 require('dotenv').config();
@@ -50,6 +51,13 @@ app.use(
   })
 );
 
+// Serve static files from the 'client/public' directory
+app.use(express.static(path.join(__dirname, '..', 'client', 'public')));
+
+// Root route to serve index.html
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'client', 'public', 'index.html'));
+});
 // Initialize Passport for authentication
 app.use(passport.initialize());
 app.use(passport.session());
