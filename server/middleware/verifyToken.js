@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const jwtSecret = 'your_jwt_secret'; // Define securely
+const jwtSecret = process.env.JWT_SECRET || 'your_jwt_secret'; // Define securely
 
 function verifyToken(req, res, next) {
     const token = req.headers['authorization'];
@@ -10,7 +10,7 @@ function verifyToken(req, res, next) {
 
     try {
         const decoded = jwt.verify(token.split(' ')[1], jwtSecret);
-        req.userId = decoded.id;
+        req.user = decoded; 
         next();
     } catch (error) {
         return res.status(500).json({ success: false, message: 'Failed to authenticate token' });
