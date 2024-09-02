@@ -28,9 +28,9 @@ document.getElementById('loginButton').addEventListener('click', async () => {
         console.log('Response headers:', response.headers);
 
         if (!response.ok) {
-            const errorText = await response.text(); // Read response text for error details
-            console.error('Login failed:', errorText);
-            throw new Error(errorText || 'Error logging in. Please try again later.');
+            const errorData = await response.json(); // Parse JSON response for error details
+            console.error('Login failed:', errorData.message || errorData);
+            throw new Error(errorData.message || 'Error logging in. Please try again later.');
         }
 
         const data = await response.json(); // Parse JSON response
