@@ -13,6 +13,8 @@ document.getElementById('loginButton').addEventListener('click', async () => {
             throw new Error('Please enter both email and password.');
         }
 
+        console.log('Sending login request to:', baseURL);
+
         const response = await fetch(baseURL, {
             method: 'POST',
             headers: {
@@ -21,13 +23,18 @@ document.getElementById('loginButton').addEventListener('click', async () => {
             body: JSON.stringify({ email, password })
         });
 
-        // Check if response status is OK
+        // Log response for debugging
+        console.log('Response status:', response.status);
+        console.log('Response headers:', response.headers);
+
         if (!response.ok) {
             const errorText = await response.text(); // Read response text for error details
+            console.error('Login failed:', errorText);
             throw new Error(errorText || 'Error logging in. Please try again later.');
         }
 
         const data = await response.json(); // Parse JSON response
+        console.log('Login successful, response data:', data);
 
         if (data.success) {
             localStorage.setItem('token', data.token);
