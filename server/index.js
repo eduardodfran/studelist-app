@@ -7,7 +7,7 @@ const helmet = require('helmet');
 const compression = require('compression');
 const authAPI = require('./api/auth');
 const accountContainerAPI = require('./api/account-container');
-const notesAPI = require('../server/api/notes');
+const notesAPI = require('./api/notes');
 const todoAPI = require('./api/todo');
 const eventsAPI = require('./api/events');
 const profileAPI = require('./api/profile');
@@ -39,7 +39,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Enable CORS
-app.use(cors());
+const corsOptions = {
+    origin: 'https://studelist-app-frontend.vercel.app/', // Replace with your frontend domain
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+};
+app.use(cors(corsOptions));
 
 // Session management
 app.use(
@@ -58,6 +63,7 @@ app.use(express.static(path.join(__dirname, '..', 'client', 'public')));
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'client', 'public', 'index.html'));
 });
+
 // Initialize Passport for authentication
 app.use(passport.initialize());
 app.use(passport.session());
