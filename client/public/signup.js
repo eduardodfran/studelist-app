@@ -22,7 +22,7 @@ document.getElementById('signupButton').addEventListener('click', async () => {
 
         if (response.ok) {
             const result = await response.json();
-            document.getElementById('signupStatus').textContent = 'Signup successful! Redirecting to messaging page...';
+            document.getElementById('signupStatus').textContent = 'Signup successful! Redirecting to login page...';
             setTimeout(() => {
                 window.location.href = "login.html";
             }, 2000); // Redirect after 2 seconds

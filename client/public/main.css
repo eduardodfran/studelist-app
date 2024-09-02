@@ -12,6 +12,14 @@ body {
   justify-content: space-between;
 }
 
+.dev-text {
+  background-color: #fffbf0;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  
+}
+
 .sidebar {
   display: flex;
   flex-direction: column;
