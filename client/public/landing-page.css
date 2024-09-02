@@ -18,6 +18,18 @@ body {
   color: #eee; /* Dark mode text color */
 }
 
+.dev-text {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: red;
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+}
+
 .front {
   display: flex;
   flex-direction: column;

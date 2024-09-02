@@ -377,6 +377,7 @@ body {
   flex: 1;
   max-height: 400px;
   overflow-y: auto;
+  cursor: pointer;
 }
 
 .card-head {

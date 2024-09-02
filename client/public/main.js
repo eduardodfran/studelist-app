@@ -21,9 +21,31 @@ const pomodoroMessage = document.querySelector('#pomodoro-message');
 const profileLink = document.querySelector('#profile');
 const logoutLink = document.querySelector('#logout');
 
+const notesCard = document.querySelector('#notesCard');
+const todoCard = document.querySelector('#todoCard');
+const eventsCard = document.querySelector('#eventsCard');
+
 // Initial setup
 document.addEventListener('DOMContentLoaded', function () {
     showSection('dashboard');
+});
+
+
+// card navigation
+
+notesCard.addEventListener('click', function () {
+    showSection('notes');
+    setActive(notesTool);
+});
+
+todoCard.addEventListener('click', function () {
+    showSection('todo');
+    setActive(todoTool);
+});
+
+eventsCard.addEventListener('click', function () {
+    showSection('events');
+    setActive(eventsTool);
 });
 
 // Tool navigation
