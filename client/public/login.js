@@ -1,11 +1,12 @@
 document.getElementById('loginButton').addEventListener('click', async () => {
+    console.log('Login button clicked');
     const email = document.getElementById('loginEmail').value.trim();
     const password = document.getElementById('loginPassword').value.trim();
 
     // Define base URL based on environment
     const baseURL = window.location.hostname === 'localhost'
         ? 'http://localhost:3000/api/auth/login'
-        : 'https://studelist-app-api.vercel.app/api/auth/login';
+        : 'https://studelist-app.vercel.app';
 
     try {
         if (!email || !password) {
