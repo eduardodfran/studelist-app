@@ -2,16 +2,16 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const session = require('express-session');
-const passport = require('./api/passport');
+const passport = require('./passport');
 const helmet = require('helmet');
 const compression = require('compression');
-const authAPI = require('./api/auth');
-const accountContainerAPI = require('./api/account-container');
-const notesAPI = require('./api/notes');
-const todoAPI = require('./api/todo');
-const eventsAPI = require('./api/events');
-const profileAPI = require('./api/profile');
-const chatAPI = require('./api/chat');
+const authAPI = require('./auth');
+const accountContainerAPI = require('./account-container');
+const notesAPI = require('./notes');
+const todoAPI = require('./todo');
+const eventsAPI = require('./events');
+const profileAPI = require('./profile');
+const chatAPI = require('./chat');
 const path = require('path');
 
 // Load environment variables from .env file
@@ -28,15 +28,15 @@ const allowedOrigins = [
 // CORS configuration
 const corsOptions = {
   origin: function (origin, callback) {
-    if (allowedOrigins.indexOf(origin) !== -1 || !origin) { // Allow localhost (when testing from Postman) or origins in the list
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) { 
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
     }
   },
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Ensure OPTIONS is included
-  allowedHeaders: ['Content-Type', 'Authorization'], // Include custom headers
-  credentials: true // Allow credentials (cookies, etc.)
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], 
+  allowedHeaders: ['Content-Type', 'Authorization'], 
+  credentials: true 
 };
 
 app.use(cors(corsOptions));
@@ -49,11 +49,11 @@ app.use(compression());
 
 // Set CSP headers
 app.use((req, res, next) => {
-    res.setHeader(
-        'Content-Security-Policy',
-        "default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline';"
-    );
-    next();
+  res.setHeader(
+    'Content-Security-Policy',
+    "default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline';"
+  );
+  next();
 });
 
 // Body parsing middleware
@@ -66,16 +66,20 @@ app.use(
     secret: process.env.SESSION_SECRET || 'your_session_secret',
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: process.env.NODE_ENV === 'production' }
+    cookie: {
+      secure: process.env.NODE_ENV === 'production',
+      httpOnly: true, // Helps prevent cross-site scripting attacks
+      maxAge: 3600000 // 1 hour
+    }
   })
 );
 
 // Serve static files from the 'client/public' directory
-app.use(express.static(path.join(__dirname, '..', 'client', 'public')));
+app.use(express.static(path.join(__dirname, '..', '..', 'client', 'public')));
 
 // Root route to serve index.html
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'client', 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, '..', '..', 'client', 'public', 'index.html'));
 });
 
 // Initialize Passport for authentication
