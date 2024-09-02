@@ -19,6 +19,23 @@ require('dotenv').config();
 
 const app = express();
 
+// Define allowed origins
+const allowedOrigins = [
+  'http://localhost:3000', // Local development
+  'https://studelist-app-frontend.vercel.app' // Deployed frontend
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) { // Allow localhost (when testing from Postman) or origins in the list
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true // Allow cookies to be sent with requests
+}));
+
 // Security headers with Helmet
 app.use(helmet());
 

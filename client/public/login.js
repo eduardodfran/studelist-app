@@ -2,13 +2,17 @@ document.getElementById('loginButton').addEventListener('click', async () => {
     const email = document.getElementById('loginEmail').value.trim();
     const password = document.getElementById('loginPassword').value.trim();
 
+    // Define base URL based on environment
+    const baseURL = window.location.hostname === 'localhost'
+        ? 'http://localhost:3000/api/auth/login'
+        : 'https://studelist-app-api.vercel.app/api/auth/login';
+
     try {
         if (!email || !password) {
             throw new Error('Please enter both email and password.');
         }
 
-        // Update this URL to your deployed backend API
-        const response = await fetch('https://studelist-app-api.vercel.app/api/auth/login', {
+        const response = await fetch(baseURL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
