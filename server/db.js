@@ -1,10 +1,11 @@
 const mysql = require('mysql2/promise');
 
+// Update these values with your remote database credentials
 const pool = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: 'root',
-    database: 'studelist',
+    host: process.env.DB_HOST,       // Remote database host
+    user: process.env.DB_USER,       // Database user
+    password: process.env.DB_PASSWORD, // Database password
+    database: process.env.DB_NAME,    // Database name
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
