@@ -8,7 +8,7 @@ document.getElementById('loginButton').addEventListener('click', async () => {
         }
 
         // Update this URL to your deployed backend API
-        const response = await fetch('https://studelist-app-api.vercel.app//api/auth/login', {
+        const response = await fetch('https://studelist-app-api.vercel.app/api/auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
