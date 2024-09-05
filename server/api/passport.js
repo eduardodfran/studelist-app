@@ -6,7 +6,7 @@ const { query } = require('../db'); // Import the query function from db.js
 passport.use(new GoogleStrategy({
     clientID: '275123846159-482a1dfcalr0kmj4i7svfsd3r8dlshtk.apps.googleusercontent.com',
     clientSecret: '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',
-    callbackURL: 'http://localhost:3000/auth/google/callback'
+    callbackURL: 'https://studelist-app-api.vercel.app/api/auth/callback'
   },
   async (accessToken, refreshToken, profile, done) => {
     try {
