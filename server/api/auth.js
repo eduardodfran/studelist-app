@@ -97,7 +97,6 @@ router.get(
 router.get(
   '/google/callback',
   passport.authenticate('google', { failureRedirect: '/login.html' }),
-  console.log('Callback hit'),
   (req, res) => {
     // Successful authentication
     const token = jwt.sign({ userId: req.user.id }, jwtSecret, {
