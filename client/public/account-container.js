@@ -16,6 +16,8 @@ document.addEventListener('DOMContentLoaded', async function () {
       }
     )
 
+    console.log('Response status:', response.status)
+
     if (!response.ok) {
       throw new Error(`Failed to fetch user profile: ${await response.text()}`)
     }
