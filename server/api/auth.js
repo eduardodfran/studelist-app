@@ -8,58 +8,64 @@ const jwtSecret = 'your_jwt_secret'; // Replace with your actual JWT secret
 
 // POST /api/auth/signup
 router.post('/signup', async (req, res) => {
-  const { firstName, lastName, dob, username, email, password } = req.body;
+    const { firstName, lastName, dob, username, email, password } = req.body;
 
-  try {
-      // Validate required fields
-      if (!firstName || !lastName || !dob || !username || !email || !password) {
-          return res.status(400).json({ success: false, message: 'All fields are required.' });
-      }
+    try {
+        // Validate required fields
+        if (!firstName || !lastName || !dob || !username || !email || !password) {
+            return res.status(400).json({ success: false, message: 'All fields are required.' });
+        }
 
-      // Check if username or email already exists
-      const [existingUser] = await query('SELECT * FROM users WHERE username = ? OR email = ?', [username, email]);
+        // Check if username or email already exists
+        const [existingUser] = await query('SELECT * FROM users WHERE username = ? OR email = ?', [username, email]);
 
-      if (existingUser.length > 0) {
-          return res.status(400).json({ success: false, message: 'Username or email already exists' });
-      }
+        if (existingUser.length > 0) {
+            return res.status(400).json({ success: false, message: 'Username or email already exists' });
+        }
 
-      // Hash password before storing in database
-      const hashedPassword = await bcrypt.hash(password, 10);
+        // Hash password before storing in database
+        const hashedPassword = await bcrypt.hash(password, 10);
 
-      // Insert new user into database
-      await query('INSERT INTO users (first_name, last_name, dob, username, email, password) VALUES (?, ?, ?, ?, ?, ?)', [firstName, lastName, dob, username, email, hashedPassword]);
+        // Insert new user into database
+        await query('INSERT INTO users (first_name, last_name, dob, username, email, password) VALUES (?, ?, ?, ?, ?, ?)', [firstName, lastName, dob, username, email, hashedPassword]);
 
-      res.status(201).json({ success: true, message: 'User registered successfully' });
-  } catch (error) {
-      console.error('Error during signup:', error);
-      res.status(500).json({ success: false, message: 'Error signing up. Please try again later.' });
-  }
+        res.status(201).json({ success: true, message: 'User registered successfully' });
+    } catch (error) {
+        console.error('Error during signup:', error);
+        res.status(500).json({ success: false, message: 'Error signing up. Please try again later.' });
+    }
 });
 
 // POST /api/auth/login
 router.post('/login', async (req, res) => {
-  const { email, password } = req.body;
+    console.log('Login route hit');
+    console.log('Request body:', req.body);
 
-  try {
-      const [user] = await query('SELECT * FROM users WHERE email = ?', [email]);
+    const { email, password } = req.body;
 
-      if (user.length === 0) {
-          return res.status(401).json({ success: false, message: 'Invalid email or password' });
-      }
+    try {
+        // Check if email exists
+        const [user] = await query('SELECT * FROM users WHERE email = ?', [email]);
 
-      const passwordMatch = await bcrypt.compare(password, user[0].password);
+        if (user.length === 0) {
+            return res.status(401).json({ success: false, message: 'Invalid email or password' });
+        }
 
-      if (!passwordMatch) {
-          return res.status(401).json({ success: false, message: 'Invalid email or password' });
-      }
+        // Validate password
+        const passwordMatch = await bcrypt.compare(password, user[0].password);
 
-      const token = jwt.sign({ id: user[0].id }, jwtSecret, { expiresIn: '1h' });
+        if (!passwordMatch) {
+            return res.status(401).json({ success: false, message: 'Invalid email or password' });
+        }
 
-      res.status(200).json({ success: true, message: 'Login successful', token });
-  } catch (error) {
-      console.error('Error during login:', error);
-      res.status(500).json({ success: false, message: 'Error logging in. Please try again later.' });
-  }
+        // Generate JWT token
+        const token = jwt.sign({ id: user[0].id }, jwtSecret, { expiresIn: '1h' });
+
+        res.status(200).json({ success: true, message: 'Login successful', token });
+    } catch (error) {
+        console.error('Error during login:', error);
+        res.status(500).json({ success: false, message: 'Error logging in. Please try again later.' });
+    }
 });
 
 router.get('/verify', async (req, res) => {
