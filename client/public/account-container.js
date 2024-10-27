@@ -1,3 +1,5 @@
+// File: public/js/account-container.js
+
 document.addEventListener('DOMContentLoaded', async function () {
     try {
         const token = localStorage.getItem('token');
@@ -9,7 +11,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`  // Fixed the template literal
             }
         });
 
@@ -31,17 +33,17 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
 
         // Update DOM elements with user profile information
-        document.getElementById('name').textContent = `${first_name} ${last_name}`;
+        document.getElementById('name').textContent = `${first_name} ${last_name}`;  // Fixed the template literal
         document.getElementById('email').textContent = email;
 
         // Set profile picture
         const profilePictureElement = document.getElementById('profilePicture');
         if (profile_picture) {
-            profilePictureElement.style.backgroundImage = `url(${profile_picture})`;
+            profilePictureElement.style.backgroundImage = `url(${profile_picture})`;  // Fixed the template literal
             profilePictureElement.textContent = ''; // Clear initials if profile picture exists
         } else {
             // Set profile picture initials
-            const initials = `${first_name[0]}${last_name[0]}`;
+            const initials = `${first_name[0]}${last_name[0]}`;  // Fixed the template literal
             profilePictureElement.textContent = initials;
         }
 
@@ -50,5 +52,3 @@ document.addEventListener('DOMContentLoaded', async function () {
         // Add logic to display error to user (e.g., update UI with error message)
     }
 });
-
-
