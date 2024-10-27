@@ -17,15 +17,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     // Fetch summarized notes data
-    const notesResponse = await fetch('http://localhost:3000/api/notes/summary', { headers });
+    const notesResponse = await fetch('http://studelist-app-api.vercel.app/api/notes/summary', { headers });
     const notesData = await notesResponse.json();
 
     // Fetch summarized todos data
-    const todoResponse = await fetch('http://localhost:3000/api/todo/summary', { headers });
+    const todoResponse = await fetch('http://studelist-app-api.vercel.app/api/todo/summary', { headers });
     const todoData = await todoResponse.json();
 
     // Fetch summarized events data
-    const eventsResponse = await fetch('http://localhost:3000/api/events/summary', { headers });
+    const eventsResponse = await fetch('http://studelist-app-api.vercel.app/api/events/summary', { headers });
     const eventsData = await eventsResponse.json();
 
     // Display summarized notes data
