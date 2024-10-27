@@ -1,3 +1,4 @@
+// account-container.js (backend)
 const express = require('express');
 const router = express.Router();
 const pool = require('../db');
@@ -25,7 +26,6 @@ router.get('/', verifyToken, async (req, res) => {
                 last_name: user.last_name,
                 email: user.email,
                 profile_picture: user.profile_picture,
-                // Add other fields as needed
             }
         });
     } catch (error) {
