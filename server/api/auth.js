@@ -1,6 +1,7 @@
 const express = require('express')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const cors = require('cors')
 const { query } = require('../db') // Import the query function from db.js
 const passport = require('passport')
 const router = express.Router()
@@ -12,20 +13,31 @@ const allowedOrigins = [
   'https://studelist-app-api.vercel.app'
 ];
 
+// CORS configuration
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
+  credentials: true
+}
+
+router.use(cors(corsOptions))
 
 // POST /api/auth/signup
 router.post('/signup', async (req, res) => {
   const { firstName, lastName, dob, username, email, password } = req.body
 
   try {
-    // Validate required fields
     if (!firstName || !lastName || !dob || !username || !email || !password) {
       return res
         .status(400)
         .json({ success: false, message: 'All fields are required.' })
     }
 
-    // Check if username or email already exists
     const [existingUser] = await query(
       'SELECT * FROM users WHERE username = ? OR email = ?',
       [username, email]
@@ -37,10 +49,8 @@ router.post('/signup', async (req, res) => {
         .json({ success: false, message: 'Username or email already exists' })
     }
 
-    // Hash password before storing in database
     const hashedPassword = await bcrypt.hash(password, 10)
 
-    // Insert new user into database
     await query(
       'INSERT INTO users (first_name, last_name, dob, username, email, password) VALUES (?, ?, ?, ?, ?, ?)',
       [firstName, lastName, dob, username, email, hashedPassword]
@@ -66,7 +76,6 @@ router.post('/login', async (req, res) => {
   const { email, password } = req.body
 
   try {
-    // Check if email exists
     const [user] = await query('SELECT * FROM users WHERE email = ?', [email])
 
     if (user.length === 0) {
@@ -75,7 +84,6 @@ router.post('/login', async (req, res) => {
         .json({ success: false, message: 'Invalid email or password' })
     }
 
-    // Validate password
     const passwordMatch = await bcrypt.compare(password, user[0].password)
 
     if (!passwordMatch) {
@@ -84,7 +92,6 @@ router.post('/login', async (req, res) => {
         .json({ success: false, message: 'Invalid email or password' })
     }
 
-    // Generate JWT token
     const token = jwt.sign({ id: user[0].id }, jwtSecret, { expiresIn: '1h' })
 
     res.status(200).json({ success: true, message: 'Login successful', token })
@@ -116,19 +123,16 @@ router.get('/verify', async (req, res) => {
   }
 })
 
-// GET /api/auth/google
 router.get(
   '/google',
   passport.authenticate('google', { scope: ['profile', 'email'] })
 )
 
-// GET /api/auth/google/callback
 router.get(
   '/google/callback',
   passport.authenticate('google', { failureRedirect: '/login.html' }),
   (req, res) => {
     try {
-      // Generate token upon successful authentication
       const token = jwt.sign({ userId: req.user.id }, jwtSecret, {
         expiresIn: '1h',
       })
@@ -145,7 +149,6 @@ router.get(
   }
 )
 
-// Add a route to handle logout
 router.get('/logout', (req, res) => {
   res.clearCookie('token')
   req.logout()
@@ -153,3 +156,4 @@ router.get('/logout', (req, res) => {
 })
 
 module.exports = router
+
