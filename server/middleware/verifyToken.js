@@ -20,8 +20,7 @@ function verifyToken(req, res, next) {
         if (error.name === 'TokenExpiredError') {
             return res.status(401).json({ success: false, message: 'Token expired' });
         }
-        console.error('Token verification error:', error);
-        return res.status(403).json({ success: false, message: 'Failed to authenticate token' });
+        return res.status(500).json({ success: false, message: 'Failed to authenticate token' });
     }
 }
 
