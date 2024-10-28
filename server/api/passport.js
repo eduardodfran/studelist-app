@@ -1,4 +1,5 @@
-const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const jwtSecret = process.env.JWT_SECRET || 'wakinjwt';
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const { query } = require('../db'); // Import the query function from db.js
