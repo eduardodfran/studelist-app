@@ -9,7 +9,7 @@ const jwtSecret = 'your_jwt_secret'; // Make sure to define this securely
 
 router.get('/', verifyToken, async (req, res) => {
     try {
-        const { id } = jwt.verify(req.headers.authorization.split(' ')[1], jwtSecret);
+        const { id } = req.user; // Assumes verifyToken middleware attaches user data to `req.user`
         const [users] = await pool.query('SELECT * FROM users WHERE id = ?', [id]);
         
         if (users.length === 0) {
@@ -25,7 +25,6 @@ router.get('/', verifyToken, async (req, res) => {
                 last_name: user.last_name,
                 email: user.email,
                 profile_picture: user.profile_picture,
-                // Add other fields as needed
             }
         });
     } catch (error) {
