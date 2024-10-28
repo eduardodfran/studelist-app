@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const verifyToken = require('../middleware/verifyToken');
 
 // Endpoint to get user profile
-const jwtSecret = 'your_jwt_secret'; // Make sure to define this securely
+const jwtSecret = process.env.JWT_SECRET || 'wakinjwt'; // Make sure to define this securely
 
 router.get('/', verifyToken, async (req, res) => {
     try {

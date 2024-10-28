@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const jwtSecret = process.env.JWT_SECRET || 'your_jwt_secret';;
+const jwtSecret = process.env.JWT_SECRET || 'wakinjwt';
 
 function verifyToken(req, res, next) {
     const authHeader = req.headers['authorization'];

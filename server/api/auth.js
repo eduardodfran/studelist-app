@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 const { query } = require('../db') // Import the query function from db.js
 const passport = require('passport')
 const router = express.Router()
-const jwtSecret = 'your_jwt_secret' // Replace with your actual JWT secret
+const jwtSecret = process.env.JWT_SECRET || 'wakinjwt' // Replace with your actual JWT secret
 
 // POST /api/auth/signup
 router.post('/signup', async (req, res) => {
@@ -44,12 +44,10 @@ router.post('/signup', async (req, res) => {
       .json({ success: true, message: 'User registered successfully' })
   } catch (error) {
     console.error('Error during signup:', error)
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: 'Error signing up. Please try again later.',
-      })
+    res.status(500).json({
+      success: false,
+      message: 'Error signing up. Please try again later.',
+    })
   }
 })
 
@@ -85,12 +83,10 @@ router.post('/login', async (req, res) => {
     res.status(200).json({ success: true, message: 'Login successful', token })
   } catch (error) {
     console.error('Error during login:', error)
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: 'Error logging in. Please try again later.',
-      })
+    res.status(500).json({
+      success: false,
+      message: 'Error logging in. Please try again later.',
+    })
   }
 })
 
