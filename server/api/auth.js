@@ -127,8 +127,8 @@ router.get(
       })
       res.cookie('token', token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production', // Keep this if you're on HTTPS; set to false for HTTP
-        sameSite: 'None', // Change to None to allow cross-site requests
+        secure: true, 
+        sameSite: 'None', 
       })
       res.redirect('https://studelist-app.vercel.app/main.html')
     } catch (error) {
