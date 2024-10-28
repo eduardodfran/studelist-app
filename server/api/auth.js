@@ -1,4 +1,3 @@
-// Import required modules
 const express = require('express')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
@@ -56,9 +55,13 @@ router.post('/signup', async (req, res) => {
 
 // POST /api/auth/login
 router.post('/login', async (req, res) => {
+  console.log('Login route hit')
+  console.log('Request body:', req.body)
+
   const { email, password } = req.body
 
   try {
+    // Check if email exists
     const [user] = await query('SELECT * FROM users WHERE email = ?', [email])
 
     if (user.length === 0) {
@@ -67,6 +70,7 @@ router.post('/login', async (req, res) => {
         .json({ success: false, message: 'Invalid email or password' })
     }
 
+    // Validate password
     const passwordMatch = await bcrypt.compare(password, user[0].password)
 
     if (!passwordMatch) {
@@ -75,6 +79,7 @@ router.post('/login', async (req, res) => {
         .json({ success: false, message: 'Invalid email or password' })
     }
 
+    // Generate JWT token
     const token = jwt.sign({ id: user[0].id }, jwtSecret, { expiresIn: '1h' })
 
     res.status(200).json({ success: true, message: 'Login successful', token })
@@ -89,7 +94,6 @@ router.post('/login', async (req, res) => {
   }
 })
 
-// GET /api/auth/verify
 router.get('/verify', async (req, res) => {
   const authHeader = req.headers.authorization
   const token = authHeader && authHeader.split(' ')[1]
@@ -130,7 +134,7 @@ router.get(
         secure: true,
         sameSite: 'Strict',
       })
-      res.redirect('/main.html')
+      res.redirect('https://studelist-app.vercel.app/main.html')
     } catch (error) {
       console.error('Error in Google callback:', error)
       res.redirect('/login.html')
@@ -138,7 +142,7 @@ router.get(
   }
 )
 
-// GET /api/auth/logout
+// Add a route to handle logout
 router.get('/logout', (req, res) => {
   res.clearCookie('token')
   req.logout()
