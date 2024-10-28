@@ -50,3 +50,12 @@ document.getElementById('loginButton').addEventListener('click', async () => {
         document.getElementById('loginStatus').textContent = error.message || 'Error logging in. Please try again later.';
     }
 });
+
+fetch('https://studelist-app-api.vercel.app/api/auth/verify', {
+    method: 'GET',
+    headers: { 'Authorization': 'Bearer testtoken' }
+  })
+  .then(response => response.json())
+  .then(data => console.log('API reachable:', data))
+  .catch(error => console.error('API Unreachable:', error));
+  

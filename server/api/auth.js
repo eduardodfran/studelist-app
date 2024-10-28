@@ -8,8 +8,10 @@ const jwtSecret = process.env.JWT_SECRET || 'wakinjwt' // Replace with your actu
 
 const allowedOrigins = [
   'http://localhost:3000',
-  'https://studelist-app.vercel.app',
+  'https://studelist-app-frontend.vercel.app',
+  'https://studelist-app-api.vercel.app'
 ];
+
 
 // POST /api/auth/signup
 router.post('/signup', async (req, res) => {
