@@ -6,6 +6,11 @@ const passport = require('passport')
 const router = express.Router()
 const jwtSecret = process.env.JWT_SECRET || 'wakinjwt' // Replace with your actual JWT secret
 
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://studelist-app.vercel.app',
+];
+
 // POST /api/auth/signup
 router.post('/signup', async (req, res) => {
   const { firstName, lastName, dob, username, email, password } = req.body
