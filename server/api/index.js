@@ -14,7 +14,6 @@ const profileAPI = require('./profile');
 const chatAPI = require('./chat');
 const path = require('path');
 const dashboardAPI = require('./dashboard');
-const bcrypt = require('bcryptjs');
 
 
 // Load environment variables from .env file
@@ -31,12 +30,10 @@ console.log('Environment loaded:', {
 
 // Define allowed origins
 const allowedOrigins = [
-  'http://localhost:3000',
-  'http://127.0.0.1:5500',
-  'http://localhost:5500',
-  'https://studelist-app-frontend.vercel.app',
-  'https://studelist-app.vercel.app',
-  'https://studelist-app-api.vercel.app' // Add this line
+  'http://localhost:3000',  // Frontend React port
+  'http://localhost:5173',  // Vite default port (add if using Vite)
+  'http://127.0.0.1:3000',
+  'http://127.0.0.1:5173'
 ];
 
 // Update CORS configuration
@@ -44,6 +41,11 @@ const corsOptions = {
   origin: function (origin, callback) {
       // For development/debugging
       console.log('Request origin:', origin);
+
+      // In development, allow all origins
+      if (process.env.NODE_ENV === 'development') {
+          return callback(null, true);
+      }
 
       // Allow requests with no origin (like mobile apps, curl, postman)
       if (!origin) {
@@ -57,10 +59,10 @@ const corsOptions = {
           callback(new Error('Not allowed by CORS'));
       }
   },
+  credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-  optionsSuccessStatus: 200 // For legacy browser support
+  optionsSuccessStatus: 200
 };
 
 // Apply CORS configuration

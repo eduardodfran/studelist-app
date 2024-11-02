@@ -215,4 +215,43 @@ router.get('/folders/all', verifyToken, async (req, res) => {
     }
 });
 
+// Add this new endpoint for folder deletion
+router.delete('/folders/:folderName', verifyToken, async (req, res) => {
+    try {
+        const { folderName } = req.params;
+        const userId = req.user.id;
+
+        // Begin transaction
+        await db.query('START TRANSACTION');
+
+        try {
+            // Update all notes in the folder to have no folder (move to unfiled)
+            const [updateResult] = await db.query(
+                'UPDATE notes SET folder = NULL, updated_at = CURRENT_TIMESTAMP WHERE user_id = ? AND folder = ?',
+                [userId, folderName]
+            );
+
+            // Commit transaction
+            await db.query('COMMIT');
+
+            res.json({
+                success: true,
+                message: 'Folder deleted successfully',
+                affectedNotes: updateResult.affectedRows
+            });
+        } catch (error) {
+            // Rollback in case of error
+            await db.query('ROLLBACK');
+            throw error;
+        }
+    } catch (error) {
+        console.error('Error deleting folder:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Error deleting folder',
+            error: process.env.NODE_ENV === 'development' ? error.message : undefined
+        });
+    }
+});
+
 module.exports = router;

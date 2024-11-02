@@ -99,6 +99,33 @@
   outline: none;
 }
 
+/* New Folder Modal Styles */
+.new-folder-content {
+  max-width: 400px;
+}
+
+.new-folder-content h3 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+#newFolderName {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+}
+
+#newFolderName:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+  outline: none;
+}
+
 /* Notes List */
 .notes-list {
   display: grid;
@@ -546,4 +573,26 @@
 .confirm-delete-btn:hover {
   background: #c0392b;
   transform: translateY(-2px);
+}
+
+/* Add these styles */
+.folder-select option {
+    padding: 8px 30px 8px 8px;
+    position: relative;
+}
+
+.trash-icon {
+    position: absolute;
+    right: 8px;
+    color: #e74c3c;
+    font-size: 14px;
+}
+
+.folder-select option:hover .trash-icon {
+    opacity: 1;
+}
+
+/* Update the delete confirmation modal styles */
+.delete-confirm-modal {
+    z-index: 1001; /* Ensure it appears above other modals */
 }

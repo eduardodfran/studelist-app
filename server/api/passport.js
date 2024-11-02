@@ -6,7 +6,7 @@ const { query } = require('../db'); // Import the query function from db.js
 passport.use(new GoogleStrategy({
   clientID: '275123846159-482a1dfcalr0kmj4i7svfsd3r8dlshtk.apps.googleusercontent.com',
   clientSecret: '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',
-  callbackURL: 'https://studelist-app-api.vercel.app/api/auth/google/callback',
+  callbackURL: 'https://localhost:3000/api/auth/google/callback',
   scope: ['profile', 'email', 'https://www.googleapis.com/auth/calendar'] // Added calendar scope
 },
   async (accessToken, refreshToken, profile, done) => {

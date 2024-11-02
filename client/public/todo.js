@@ -6,7 +6,7 @@ async function verifyToken() {
     }
 
     try {
-        const response = await fetch('http://studelist-app-api.vercel.app/api/auth/verify', {
+        const response = await fetch('http://localhost:3000/api/auth/verify', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
       try {
           const token = localStorage.getItem('token')
-          const response = await fetch('http://studelist-app-api.vercel.app/api/todo', {
+          const response = await fetch('http://localhost:3000/api/todo', {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json',
@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             return;
         }
 
-        const response = await fetch('http://studelist-app-api.vercel.app/api/todo', {
+        const response = await fetch('http://localhost:3000/api/todo', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         const token = localStorage.getItem('token');
         console.log('Sending update request:', { id, status }); // Debug log
 
-        const response = await fetch(`http://studelist-app-api.vercel.app/api/todo/${id}`, {
+        const response = await fetch(`http://localhost:3000/api/todo/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -242,7 +242,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       if (confirm('Are you sure you want to delete this task?')) {
           try {
               const token = localStorage.getItem('token')
-              const response = await fetch(`http://studelist-app-api.vercel.app/api/todo/${id}`, {
+              const response = await fetch(`http://localhost:3000/api/todo/${id}`, {
                   method: 'DELETE',
                   headers: {
                       Authorization: `Bearer ${token}`,

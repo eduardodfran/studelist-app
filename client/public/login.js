@@ -18,7 +18,7 @@ document.getElementById('loginButton').addEventListener('click', async () => {
     const password = document.getElementById('loginPassword').value.trim();
 
     // Log the exact URL and request details
-    const baseURL = 'http://studelist-app-api.vercel.app/api/auth/login';
+    const baseURL = 'http://localhost:3000/api/auth/login';
     console.log('Attempting to login with:', {
         url: baseURL,
         email: email,

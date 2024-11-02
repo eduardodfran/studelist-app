@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   // Initialize FullCalendar
   function initializeCalendar() {
-    const calendarEl = document.getElementById('calendar')
+    const calendarEl = document.getElementById('calendar');
     calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         headerToolbar: {
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             center: 'title',
             right: 'dayGridMonth,timeGridWeek,timeGridDay',
         },
-        timeZone: 'Asia/Manila', // Set to Manila timezone
+        timeZone: 'Asia/Manila',
         displayEventTime: true,
         height: 'auto',
         editable: true,
@@ -85,23 +85,67 @@ document.addEventListener('DOMContentLoaded', async function () {
         eventDrop: handleEventDrop,
         eventResize: handleEventResize,
         eventDidMount: function (info) {
-            const category = info.event.extendedProps.category || 'other'
-            info.el.style.backgroundColor = categoryColors[category]
-
-            tippy(info.el, {
-                content: `${info.event.title}${
-                    info.event.extendedProps.description
-                        ? '<br>' + info.event.extendedProps.description
-                        : ''
-                }`,
-                allowHTML: true,
-                theme: 'light',
-            })
+            // ... existing eventDidMount code ...
         },
-    })
+        // Add this line to update events list when calendar view changes
+        datesSet: function() {
+            updateEventsList();
+        }
+    });
 
-    calendar.render()
-    loadEvents()
+    calendar.render();
+    loadEvents();
+}
+
+function updateEventsList() {
+  const eventsList = document.getElementById('eventsList');
+  eventsList.innerHTML = ''; // Clear existing events
+
+  const events = calendar.getEvents();
+  const now = new Date();
+  
+  // Sort events by date
+  const sortedEvents = events
+      .filter(event => event.start >= now)
+      .sort((a, b) => a.start - b.start);
+
+  sortedEvents.forEach(event => {
+      const card = document.createElement('div');
+      card.className = `event-card ${event.extendedProps.category || 'other'}`;
+      
+      const date = new Date(event.start);
+      const formattedDate = date.toLocaleDateString('en-US', {
+          weekday: 'short',
+          month: 'short',
+          day: 'numeric'
+      });
+      const formattedTime = date.toLocaleTimeString('en-US', {
+          hour: '2-digit',
+          minute: '2-digit'
+      });
+
+      card.innerHTML = `
+          <h4>${event.title}</h4>
+          <div class="event-card-details">
+              <div class="event-meta">
+                  <span><i class="fas fa-calendar"></i>${formattedDate}</span>
+                  <span><i class="fas fa-clock"></i>${formattedTime}</span>
+              </div>
+              ${event.extendedProps.location ? 
+                  `<div class="event-meta">
+                      <span><i class="fas fa-location-dot"></i>${event.extendedProps.location}</span>
+                  </div>` : ''}
+          </div>
+      `;
+
+      card.addEventListener('click', () => {
+          calendar.gotoDate(event.start);
+          event.setProp('display', 'auto');
+          event.el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+
+      eventsList.appendChild(card);
+  });
 }
 
   // Event Handlers
@@ -202,7 +246,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     try {
       const event = dropInfo.event
       const response = await fetch(
-        `http://studelist-app-api.vercel.app/api/events/${event.id}`,
+        `http://localhost:3000/api/events/${event.id}`,
         {
           method: 'PUT',
           headers: {
@@ -241,20 +285,20 @@ document.addEventListener('DOMContentLoaded', async function () {
   // CRUD Operations
   async function loadEvents() {
     try {
-      const events = await fetchEvents()
-      console.log('Events to be added to calendar:', events) // Debug log
-      calendar.removeAllEvents()
-      events.forEach((event) => {
-        calendar.addEvent(event)
-      })
+        const events = await fetchEvents();
+        calendar.removeAllEvents();
+        events.forEach((event) => {
+            calendar.addEvent(event);
+        });
+        updateEventsList(); // Add this line
     } catch (error) {
-      console.error('Error loading events:', error)
-      showError('Failed to load events')
+        console.error('Error loading events:', error);
+        showError('Failed to load events');
     }
-  }
+}
   async function fetchEvents() {
     try {
-        const response = await fetch('http://studelist-app-api.vercel.app/api/events', {
+        const response = await fetch('http://localhost:3000/api/events', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -304,7 +348,7 @@ async function createEvent(eventData) {
             time: eventData.time,
         };
 
-        const response = await fetch('http://studelist-app-api.vercel.app/api/events', {
+        const response = await fetch('http://localhost:3000/api/events', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -330,7 +374,7 @@ async function createEvent(eventData) {
       console.log('Deleting event with ID:', event.id) // Debug log
 
       const response = await fetch(
-        `http://studelist-app-api.vercel.app/api/events/${event.id}`,
+        `http://localhost:3000/api/events/${event.id}`,
         {
           method: 'DELETE',
           headers: {
@@ -405,7 +449,7 @@ async function createEvent(eventData) {
   async function updateEvent(eventId, eventData) {
     try {
       const response = await fetch(
-        `http://studelist-app-api.vercel.app/api/events/${eventId}`,
+        `http://localhost:3000/api/events/${eventId}`,
         {
           method: 'PUT',
           headers: {
@@ -434,23 +478,53 @@ async function createEvent(eventData) {
     const searchTerm = searchInput.value.toLowerCase()
     const categoryValue = categoryFilter.value
 
+    // Filter calendar events
     const events = calendar.getEvents()
     events.forEach((event) => {
-      const matchesSearch =
-        event.title.toLowerCase().includes(searchTerm) ||
-        (event.extendedProps.description || '')
-          .toLowerCase()
-          .includes(searchTerm)
-      const matchesCategory =
-        categoryValue === 'all' ||
-        event.extendedProps.category === categoryValue
+        const matchesSearch =
+            event.title.toLowerCase().includes(searchTerm) ||
+            (event.extendedProps.description || '')
+                .toLowerCase()
+                .includes(searchTerm)
+        const matchesCategory =
+            categoryValue === 'all' ||
+            event.extendedProps.category === categoryValue
 
-      event.setProp(
-        'display',
-        matchesSearch && matchesCategory ? 'auto' : 'none'
-      )
+        event.setProp(
+            'display',
+            matchesSearch && matchesCategory ? 'auto' : 'none'
+        )
     })
-  }
+
+    // Filter upcoming events cards
+    const eventCards = document.querySelectorAll('.event-card')
+    eventCards.forEach((card) => {
+        const title = card.querySelector('h4').textContent.toLowerCase()
+        const category = Array.from(card.classList)
+            .find(cls => ['study', 'exam', 'assignment', 'meeting', 'other'].includes(cls))
+
+        const matchesSearch = title.includes(searchTerm)
+        const matchesCategory = categoryValue === 'all' || category === categoryValue
+
+        card.style.display = matchesSearch && matchesCategory ? 'block' : 'none'
+    })
+
+    // Show "No events found" message if all cards are hidden
+    const eventsList = document.getElementById('eventsList')
+    const visibleCards = Array.from(eventCards).filter(card => card.style.display !== 'none')
+    
+    const noEventsMsg = eventsList.querySelector('.no-events-msg')
+    if (visibleCards.length === 0) {
+        if (!noEventsMsg) {
+            const msg = document.createElement('div')
+            msg.className = 'no-events-msg'
+            msg.textContent = 'No events found'
+            eventsList.appendChild(msg)
+        }
+    } else if (noEventsMsg) {
+        noEventsMsg.remove()
+    }
+}
 
   // Import/Export
   exportBtn.addEventListener('click', exportEvents)
@@ -521,6 +595,9 @@ async function createEvent(eventData) {
   if ('Notification' in window) {
     Notification.requestPermission()
   }
+
+
+ 
 
   initializeCalendar()
 })

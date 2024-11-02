@@ -286,7 +286,7 @@ function showNotification(message) {
 async function updateProfiles() {
     try {
         const token = localStorage.getItem('token');
-        const response = await fetch('http://studelist-app-api.vercel.app/api/account-container', {
+        const response = await fetch('http://localhost:3000/api/account-container', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -333,7 +333,7 @@ async function verifyToken() {
     }
 
     try {
-        const response = await fetch('http://studelist-app-api.vercel.app/api/auth/verify', {
+        const response = await fetch('http://localhost:3000/api/auth/verify', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -355,7 +355,7 @@ async function handleLogout(e) {
     
     try {
         const token = localStorage.getItem('token');
-        await fetch('http://studelist-app-api.vercel.app/api/auth/logout', {
+        await fetch('http://localhost:3000/api/auth/logout', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`

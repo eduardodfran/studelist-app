@@ -126,6 +126,32 @@
             </form>
           </div>
         </div>
+
+        <div id="newFolderModal" class="modal">
+          <div class="modal-content new-folder-content">
+              <span class="close">&times;</span>
+              <h3>Add New Folder</h3>
+              <form id="newFolderForm">
+                  <input type="text" id="newFolderName" placeholder="Enter folder name" required>
+                  <div class="modal-buttons">
+                      <button type="submit" class="save-btn">Add Folder</button>
+                      <button type="button" class="cancel-btn" id="cancelNewFolder">Cancel</button>
+                  </div>
+              </form>
+          </div>
+      </div>
+
+      <!-- Add this after the newFolderModal div -->
+      <div id="deleteFolderModal" class="modal delete-confirm-modal">
+          <div class="modal-content delete-confirm-content">
+              <h3>Delete Folder</h3>
+              <p>Are you sure you want to delete this folder? All notes in this folder will be moved to "Unfiled".</p>
+              <div class="delete-confirm-buttons">
+                  <button id="cancelDeleteFolder" class="cancel-btn">Cancel</button>
+                  <button id="confirmDeleteFolder" class="confirm-delete-btn">Delete</button>
+              </div>
+          </div>
+      </div>
       </section>
     </div>
 

@@ -436,3 +436,79 @@
 #deleteEventTitle {
   font-weight: 500;
 }
+
+/* Add these styles */
+.events-list-container {
+  margin-top: 1rem;
+  background: var(--card-bg);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.events-list-container h3 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+}
+
+.events-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.event-card {
+  background: var(--background);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border-left: 4px solid var(--primary-color);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.event-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.event-card.study { border-left-color: var(--primary-color); }
+.event-card.exam { border-left-color: var(--accent-color); }
+.event-card.assignment { border-left-color: var(--secondary-color); }
+.event-card.meeting { border-left-color: var(--warning-color); }
+.event-card.other { border-left-color: var(--dark); }
+
+.event-card h4 {
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.event-card-details {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.event-card-details i {
+  width: 16px;
+  margin-right: 0.5rem;
+}
+
+.event-meta {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.no-events-msg {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  background: var(--background);
+  border-radius: 0.5rem;
+}

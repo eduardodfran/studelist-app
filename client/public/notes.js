@@ -13,6 +13,14 @@ document.addEventListener('DOMContentLoaded', async function () {
     const deleteConfirmModal = document.getElementById('deleteConfirmModal');
 const confirmDeleteBtn = document.getElementById('confirmDelete');
 const cancelDeleteBtn = document.getElementById('cancelDelete');
+const newFolderModal = document.getElementById('newFolderModal');
+const newFolderForm = document.getElementById('newFolderForm');
+const newFolderInput = document.getElementById('newFolderName');
+const cancelNewFolderBtn = document.getElementById('cancelNewFolder');
+const deleteFolderModal = document.getElementById('deleteFolderModal');
+const confirmDeleteFolderBtn = document.getElementById('confirmDeleteFolder');
+const cancelDeleteFolderBtn = document.getElementById('cancelDeleteFolder');
+let folderToDelete = null;
 
     // State variables
     let editNoteId = null;
@@ -115,18 +123,67 @@ const cancelDeleteBtn = document.getElementById('cancelDelete');
         deleteNoteBtn.addEventListener('click', showDeleteConfirmation);
         cancelDeleteBtn.addEventListener('click', hideDeleteConfirmation);
         confirmDeleteBtn.addEventListener('click', handleNoteDelete);
+        newFolderForm.addEventListener('submit', handleNewFolder);
+        cancelNewFolderBtn.addEventListener('click', closeNewFolderModal);
+        newFolderModal.querySelector('.close').addEventListener('click', closeNewFolderModal);
         window.addEventListener('click', (e) => {
             if (e.target === noteModal) {
                 closeModal();
             }
+            if (e.target === newFolderModal) {
+                closeNewFolderModal();
+            }
+            if (e.target === deleteFolderModal) {
+                hideFolderDeleteConfirmation();
+            }
         });
+        confirmDeleteFolderBtn.addEventListener('click', handleFolderDelete);
+        cancelDeleteFolderBtn.addEventListener('click', hideFolderDeleteConfirmation);
+    }
+
+    async function handleNewFolder(e) {
+        e.preventDefault();
+        const folderName = newFolderInput.value.trim();
+    
+        if (!folderName) {
+            showError('Please enter a folder name');
+            return;
+        }
+    
+        if (folders.includes(folderName)) {
+            showError('This folder already exists');
+            return;
+        }
+    
+        try {
+            // Add folder to the array
+            folders.push(folderName);
+            
+            // Update UI
+            loadFolders();
+            folderSelect.value = folderName;
+            handleFolderChange({ target: folderSelect });
+
+            // Close modal and reset form
+            closeNewFolderModal();
+            showSuccess('Folder created successfully');
+        } catch (error) {
+            console.error('Error creating folder:', error);
+            showError('Failed to create folder');
+        }
+    }
+
+    // Add this new function to handle modal closing
+    function closeNewFolderModal() {
+        newFolderModal.style.display = 'none';
+        newFolderForm.reset();
     }
 
     // Fetch Notes
     async function fetchNotes() {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://studelist-app-api.vercel.app/api/notes', {
+            const response = await fetch('http://localhost:3000/api/notes', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }
@@ -185,8 +242,8 @@ const cancelDeleteBtn = document.getElementById('cancelDelete');
             const token = localStorage.getItem('token');
             const method = editNoteId ? 'PUT' : 'POST';
             const url = editNoteId 
-                ? `http://studelist-app-api.vercel.app/api/notes/${editNoteId}`
-                : 'http://studelist-app-api.vercel.app/api/notes';
+                ? `http://localhost:3000/api/notes/${editNoteId}`
+                : 'http://localhost:3000/api/notes';
 
             const response = await fetch(url, {
                 method,
@@ -222,7 +279,7 @@ const cancelDeleteBtn = document.getElementById('cancelDelete');
     
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://studelist-app-api.vercel.app/api/notes/${editNoteId}`, {
+            const response = await fetch(`http://stlocalhost:3000/api/notes/${editNoteId}`, {
                 method: 'DELETE',
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -284,21 +341,30 @@ const cancelDeleteBtn = document.getElementById('cancelDelete');
         renderNotes(filteredNotes);
     }
 
-    function handleFolderChange() {
+    function handleFolderChange(e) {
         const selectedFolder = folderSelect.value;
         
+        // Handle the "Add New Folder" option
         if (selectedFolder === 'add') {
-            const newFolder = prompt('Enter new folder name:');
-            if (newFolder && !folders.includes(newFolder)) {
-                folders.push(newFolder);
-                loadFolders();
-                folderSelect.value = newFolder;
-            } else {
-                folderSelect.value = 'all';
-                return;
-            }
+            folderSelect.value = folderSelect.dataset.previousValue || 'all';
+            newFolderModal.style.display = 'block';
+            newFolderInput.focus();
+            return;
         }
 
+        // Handle folder deletion when trash icon is clicked
+        if (e.target.closest('.trash-icon')) {
+            e.preventDefault();
+            e.stopPropagation();
+            const folder = e.target.closest('option').value;
+            showFolderDeleteConfirmation(folder);
+            return;
+        }
+        
+        // Store the current value for next time
+        folderSelect.dataset.previousValue = selectedFolder;
+
+        // Filter notes based on selected folder
         const filteredNotes = selectedFolder === 'all' 
             ? currentNotes 
             : currentNotes.filter(note => note.folder === selectedFolder);
@@ -306,17 +372,29 @@ const cancelDeleteBtn = document.getElementById('cancelDelete');
     }
 
     // Utility Functions
-    function loadFolders() {
-        const folderSelects = document.querySelectorAll('#folderSelect, #editNoteFolder');
-        folderSelects.forEach(select => {
-            const isMainSelect = select.id === 'folderSelect';
-            select.innerHTML = `
-                ${isMainSelect ? '<option value="all">All Notes</option>' : '<option value="">Select Folder</option>'}
-                ${folders.map(folder => `<option value="${folder}">${folder}</option>`).join('')}
-                ${isMainSelect ? '<option value="add">+ New Folder</option>' : ''}
-            `;
-        });
-    }
+function loadFolders() {
+    const folderSelects = document.querySelectorAll('#folderSelect, #editNoteFolder');
+    folderSelects.forEach(select => {
+        const isMainSelect = select.id === 'folderSelect';
+        
+        // Get note counts for each folder
+        const folderCounts = folders.reduce((acc, folder) => {
+            acc[folder] = currentNotes.filter(note => note.folder === folder).length;
+            return acc;
+        }, {});
+
+        select.innerHTML = `
+            ${isMainSelect ? `<option value="all">All Notes (${currentNotes.length})</option>` : '<option value="">Select Folder</option>'}
+            ${folders.map(folder => `
+                <option value="${folder}" data-folder="${folder}">
+                    ${folder} (${folderCounts[folder]}) 
+                    ${isMainSelect ? '<i class="fas fa-trash trash-icon" title="Delete folder"></i>' : ''}
+                </option>
+            `).join('')}
+            ${isMainSelect ? '<option value="add">+ New Folder</option>' : ''}
+        `;
+    });
+}
 
     function debounce(func, wait) {
         let timeout;
@@ -329,6 +407,70 @@ const cancelDeleteBtn = document.getElementById('cancelDelete');
             timeout = setTimeout(later, wait);
         };
     }
+
+    function showFolderDeleteConfirmation(folder) {
+        const notesInFolder = currentNotes.filter(note => note.folder === folder);
+        const noteCount = notesInFolder.length;
+        
+        folderToDelete = folder;
+        
+        // Update the confirmation message with note count
+        const confirmMessage = document.querySelector('#deleteFolderModal p');
+        confirmMessage.textContent = `Are you sure you want to delete "${folder}"? ${
+            noteCount 
+                ? `${noteCount} note${noteCount > 1 ? 's' : ''} will be moved to "Unfiled".` 
+                : 'This folder is empty.'
+        }`;
+        
+        deleteFolderModal.style.display = 'block';
+    }
+
+    function hideFolderDeleteConfirmation() {
+        deleteFolderModal.style.display = 'none';
+        folderToDelete = null;
+    }
+
+    async function handleFolderDelete() {
+        if (!folderToDelete) return;
+
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`http://localhost:3000/api/notes/folders/${encodeURIComponent(folderToDelete)}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            const data = await response.json();
+            
+            if (!data.success) {
+                throw new Error(data.message || 'Failed to delete folder');
+            }
+
+            // Remove folder from local array
+            folders = folders.filter(f => f !== folderToDelete);
+            
+            // Update UI
+            loadFolders();
+            folderSelect.value = 'all';
+            await fetchNotes(); // Refresh notes to get updated folder assignments
+            hideFolderDeleteConfirmation();
+            
+            // Show success message with affected notes count
+            showSuccess(
+                `Folder "${folderToDelete}" deleted successfully. ${
+                    data.affectedNotes 
+                        ? `${data.affectedNotes} note${data.affectedNotes > 1 ? 's' : ''} moved to "Unfiled".`
+                        : ''
+                }`
+            );
+        } catch (error) {
+            console.error('Error deleting folder:', error);
+            showError(`Failed to delete folder: ${error.message}`);
+            hideFolderDeleteConfirmation();
+        }
+    }
 });
 
 window.addEventListener('click', (e) => {
@@ -338,4 +480,37 @@ window.addEventListener('click', (e) => {
     if (e.target === deleteConfirmModal) {
         hideDeleteConfirmation();
     }
+    if (e.target === deleteFolderModal) {
+        hideFolderDeleteConfirmation();
+    }
 });
+
+// Add this CSS for better folder display
+const style = document.createElement('style');
+style.textContent = `
+    .folder-select option {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 12px;
+    }
+
+    .folder-select option[data-folder]::after {
+        content: attr(data-folder);
+        font-size: 0.9em;
+        color: #666;
+    }
+
+    .trash-icon {
+        float: right;
+        color: #e74c3c;
+        opacity: 0.7;
+        cursor: pointer;
+        margin-left: 8px;
+    }
+
+    .trash-icon:hover {
+        opacity: 1;
+    }
+`;
+document.head.appendChild(style);
