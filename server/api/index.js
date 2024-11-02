@@ -14,6 +14,7 @@ const profileAPI = require('./profile');
 const chatAPI = require('./chat');
 const path = require('path');
 const dashboardAPI = require('./dashboard');
+const bcrypt = require('bcryptjs');
 
 
 // Load environment variables from .env file
