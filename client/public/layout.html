@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Studelist - {{pageTitle}}</title>
+    <link rel="stylesheet" href="main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Emilys+Candy&display=swap" rel="stylesheet" />
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-menu">
+            <h2>Studelist</h2>
+            <a href="main.html" id="dashboardTool">Dashboard</a>
+            <a href="notes.html" id="notesTool">Notes</a>
+            <a href="todo.html" id="todoTool">To-Do</a>
+            <a href="events.html" id="eventsTool">Events</a>
+        </div>
+
+        <div class="bottom">
+            <div class="account-container-wrapper">
+                <div class="account-container">
+                    <div class="profile-picture" id="profilePicture"></div>
+                    <div class="account-right">
+                        <h2 class="name" id="name">Loading...</h2>
+                        <h5 class="email" id="email">Loading...</h5>
+                    </div>
+                </div>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <a href="index.html" id="logout">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content" id="mainContent">
+        {{content}}
+    </div>
+
+    <div class="right">
+        <div class="pomodoro">
+            <button id="pomodoro-btn">
+                <img src="/pomodoro-icon.png" alt="Pomodoro" />
+            </button>
+        </div>
+        <div class="popup" id="pomodoro-popup">
+            <!-- Pomodoro content -->
+        </div>
+    </div>
+
+    <!-- Common Scripts -->
+    <script src="./js/layout.js"></script>
+    <script src="./js/account-container.js"></script>
+    <script src="./js/pomodoro.js"></script>
+    {{pageScripts}}
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Studelist - Events</title>
+    <link rel="stylesheet" href="main.css" />
+    <link rel="stylesheet" href="events.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Emilys+Candy&display=swap" rel="stylesheet" />
+    <link href='https://cdn.jsdelivr.net/npm/@fullcalendar/core/main.css' rel='stylesheet' />
+    <link href='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid/main.css' rel='stylesheet' />
+    <link href='https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid/main.css' rel='stylesheet' />
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core/index.global.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid/index.global.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid/index.global.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/interaction/index.global.min.js'></script>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/themes/light.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  </head>
+  <body>
+
+        <!-- Mobile Top Bar -->
+        <div class="top-bar">
+          <div class="top-bar-left">
+            <div class="hamburger-menu">
+              <div class="bar"></div>
+              <div class="bar"></div>
+              <div class="bar"></div>
+            </div>
+            <div class="logo">Studelist</div>
+          </div>
+          <div class="top-bar-profile" id="topBarProfile">
+            <div class="profile-picture" id="topBarProfilePicture">
+              <!-- Initials will be set dynamically using JavaScript -->
+            </div>
+            <span class="profile-name" id="topBarProfileName">Loading...</span>
+          </div>
+        </div>
+    
+        <!-- Mobile Overlay -->
+        <div class="overlay" id="overlay"></div>
+    
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-menu">
+        <h2>Studelist</h2>
+        <a href="main.html">Dashboard</a>
+        <a href="notes.html">Notes</a>
+        <a href="todo.html">To-Do</a>
+        <a href="events.html" class="active">Events</a>
+      </div>
+
+      <div class="bottom">
+        <div class="account-container-wrapper">
+          <div class="account-container" id="accountContainer">
+            <div class="profile-picture" id="profilePicture">
+              <!-- Initials will be set dynamically using JavaScript -->
+            </div>
+            <div class="account-right">
+              <h2 class="name" id="name">Loading...</h2>
+              <h5 class="email" id="email">Loading...</h5>
+            </div>
+          </div>
+          <div class="dropdown-menu" id="dropdownMenu">
+            <a href="profile-page/profile.html">Profile</a>
+            <a href="/index.html" id="logout">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content" id="mainContent">
+      <section id="events" class="tool show">
+        <h2>Events Calendar</h2>
+        
+        <!-- Search, Filter, and Import/Export Section -->
+        <div class="controls-container">
+          <div class="search-filter-container">
+            <div class="search-box">
+              <i class="fas fa-search"></i>
+              <input type="text" id="eventSearch" placeholder="Search events..." />
+            </div>
+            <select id="categoryFilter">
+              <option value="all">All Categories</option>
+              <option value="study">Study</option>
+              <option value="exam">Exam</option>
+              <option value="assignment">Assignment</option>
+              <option value="meeting">Meeting</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="import-export-buttons">
+            <button id="exportEvents" class="btn-export">
+              <i class="fas fa-download"></i> Export
+            </button>
+            <input type="file" id="importEvents" accept=".json" style="display: none;" />
+            <button id="importEventsBtn" class="btn-import">
+              <i class="fas fa-upload"></i> Import
+            </button>
+          </div>
+        </div>
+
+        <!-- Calendar Container -->
+        <div class="calendar-container">
+          <div id="calendar"></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Event Modal -->
+    <div id="eventModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>Add New Event</h3>
+        <form id="eventForm" class="event-form">
+          <div class="form-group">
+            <input type="text" id="eventTitle" placeholder="Event Title" required />
+            <select id="eventCategory" required>
+              <option value="study">Study</option>
+              <option value="exam">Exam</option>
+              <option value="assignment">Assignment</option>
+              <option value="meeting">Meeting</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <textarea id="eventDescription" placeholder="Event Description"></textarea>
+          </div>
+
+          <div class="form-group date-time">
+            <input type="date" id="eventDate" required />
+            <input type="time" id="eventTime" required />
+            <input type="text" id="eventLocation" placeholder="Location" />
+          </div>
+
+          <div class="form-group options">
+            <div class="reminder-section">
+              <label><i class="fas fa-bell"></i> Reminder:</label>
+              <select id="eventReminder">
+                <option value="none">None</option>
+                <option value="15">15 minutes before</option>
+                <option value="30">30 minutes before</option>
+                <option value="60">1 hour before</option>
+                <option value="1440">1 day before</option>
+              </select>
+            </div>
+
+            <div class="recurrence-section">
+              <label><i class="fas fa-redo"></i> Repeat:</label>
+              <select id="eventRecurrence">
+                <option value="none">Never</option>
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+              </select>
+              <input type="number" id="recurrenceCount" placeholder="Times to repeat" min="1" max="52" />
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn">
+            <i class="fas fa-plus"></i> Add Event
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Toast Container for Notifications -->
+    <div id="toast-container"></div>
+
+    <div id="deleteModal" class="modal">
+      <div class="modal-content">
+        <h3>Delete Event</h3>
+        <p>Are you sure you want to delete "<span id="deleteEventTitle"></span>"?</p>
+        <div class="modal-actions">
+          <button id="confirmDelete" class="btn-danger">Delete</button>
+          <button id="cancelDelete" class="btn-secondary">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="./account-container.js"></script>
+    <script src="./events.js"></script>
+    <script>
+      // Responsive Navigation Script
+      document.querySelector('.hamburger-menu').addEventListener('click', function() {
+        this.classList.toggle('active');
+        document.querySelector('.sidebar').classList.toggle('active');
+        document.querySelector('.overlay').classList.toggle('active');
+      });
+
+      // Close sidebar when clicking overlay
+      document.querySelector('.overlay').addEventListener('click', function() {
+        document.querySelector('.hamburger-menu').classList.remove('active');
+        document.querySelector('.sidebar').classList.remove('active');
+        this.classList.remove('active');
+      });
+
+      // Update top bar profile with user data
+      function updateTopBarProfile() {
+        const userData = JSON.parse(localStorage.getItem('userData'));
+        if (userData) {
+          document.getElementById('topBarProfileName').textContent = userData.name;
+          document.getElementById('topBarProfilePicture').textContent = userData.name.split(' ').map(n => n[0]).join('');
+        }
+      }
+
+      // Call the function when page loads
+      updateTopBarProfile();
+    </script>
+  </body>
+</html>

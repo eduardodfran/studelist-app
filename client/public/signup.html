@@ -7,10 +7,8 @@
     <link rel="stylesheet" href="./signup.css">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Emilys+Candy&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Emilys+Candy&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <header>
@@ -22,22 +20,24 @@
             <h2>Sign Up</h2>
             <button class="login-with-google-btn" onclick="window.location.href='https://studelist-app-api.vercel.app/api/auth/google'">Sign Up with Google</button>
             <div class="or">
-
                 <p>Or continue with email</p>
-
             </div>
             <input type="text" id="signupFirstName" placeholder="First Name">
             <input type="text" id="signupLastName" placeholder="Last Name">
             <input type="date" id="signupDob" placeholder="Date of Birth">
             <input type="text" id="signupUsername" placeholder="Username">
             <input type="email" id="signupEmail" placeholder="Email">
-            <input type="password" id="signupPassword" placeholder="Password">
+            <div class="password-container">
+                <input type="password" id="signupPassword" placeholder="Password">
+                <button type="button" id="togglePassword" class="toggle-password">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
             <button id="signupButton">Sign Up</button>
             <p id="signupStatus"></p>
             <p>Already have an account? <a href="login.html">Login</a></p>
         </div>
     </div>
-
 
     <script src="./signup.js"></script>
 </body>

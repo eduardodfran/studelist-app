@@ -1,54 +1,132 @@
-document.addEventListener('DOMContentLoaded', async function () {
-  try {
+
+
+async function verifyToken() {
     const token = localStorage.getItem('token');
     if (!token) {
-      throw new Error('No token found');
+        window.location.href = 'login.html';
+        return;
     }
 
-    const response = await fetch(
-      'http://studelist-app-api.vercel.app/api/account-container',
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,  // Fixed syntax for token
-        },
-      }
-    );
+    try {
+        const response = await fetch('http://studelist-app-api.vercel.app/api/auth/verify', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch user profile: ${await response.text()}`);
+        if (!response.ok) {
+            throw new Error('Token verification failed');
+        }
+    } catch (error) {
+        console.error('Token verification failed:', error);
+        localStorage.removeItem('token');
+        window.location.href = 'login.html';
     }
+}
 
-    const data = await response.json();
-    console.log('Full response data:', data);
+document.addEventListener('DOMContentLoaded', async function() {
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = '/login.html';
+            return;
+        }
 
-    if (!data.user) {
-      throw new Error('User data not found in response');
+        const response = await fetch('http://studelist-app-api.vercel.app/api/account-container', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch user data');
+        }
+
+        const data = await response.json();
+        
+        if (data.success && data.user) {
+            // Update sidebar name and email
+            const nameElement = document.getElementById('name');
+            const emailElement = document.getElementById('email');
+            if (nameElement) nameElement.textContent = `${data.user.first_name} ${data.user.last_name}`;
+            if (emailElement) emailElement.textContent = data.user.email;
+            
+            // Update both profile pictures
+            const profilePicture = document.getElementById('profilePicture');
+            const topBarProfilePicture = document.getElementById('topBarProfilePicture');
+            const topBarProfileName = document.getElementById('topBarProfileName');
+
+            const fullName = `${data.user.first_name} ${data.user.last_name}`;
+            const initials = `${data.user.first_name[0]}${data.user.last_name[0]}`.toUpperCase();
+
+            // Update profile pictures
+            const updateProfilePicture = (element) => {
+                if (element) {
+                    if (data.user.profile_picture) {
+                        element.style.backgroundImage = `url(${data.user.profile_picture})`;
+                        element.textContent = '';
+                    } else {
+                        element.style.backgroundImage = '';
+                        element.textContent = initials;
+                    }
+                }
+            };
+
+            updateProfilePicture(profilePicture);
+            updateProfilePicture(topBarProfilePicture);
+
+            // Update topbar name
+            if (topBarProfileName) {
+                topBarProfileName.textContent = fullName;
+            }
+
+            // Add click handlers for profile navigation
+            const accountContainer = document.getElementById('accountContainer');
+            const topBarProfile = document.getElementById('topBarProfile');
+
+            // Make both profile sections clickable
+            if (accountContainer) {
+                accountContainer.style.cursor = 'pointer';
+                accountContainer.addEventListener('click', navigateToProfile);
+            }
+
+            if (topBarProfile) {
+                topBarProfile.style.cursor = 'pointer';
+                topBarProfile.addEventListener('click', navigateToProfile);
+            }
+        }
+
+    } catch (error) {
+        console.error('Error:', error);
     }
-
-    const { first_name, last_name, email, profile_picture } = data.user;
-
-    if (!first_name || !last_name || !email) {
-      throw new Error('Missing required user data');
-    }
-
-    // Update DOM elements with user profile information
-    document.getElementById('name').textContent = `${first_name} ${last_name}`;
-    document.getElementById('email').textContent = email;
-
-    // Set profile picture
-    const profilePictureElement = document.getElementById('profilePicture');
-    if (profile_picture) {
-      profilePictureElement.style.backgroundImage = `url(${profile_picture})`;
-      profilePictureElement.textContent = ''; // Clear initials if profile picture exists
-    } else {
-      // Set profile picture initials
-      const initials = `${first_name[0]}${last_name[0]}`;
-      profilePictureElement.textContent = initials;
-    }
-  } catch (error) {
-    console.error('Error fetching user profile:', error);
-    // Optionally, display an error message on the UI here
-  }
 });
+
+// Navigation function
+function navigateToProfile() {
+    window.location.href = 'profile-page/profile.html';
+}
+
+// Logout functionality
+const logoutLink = document.getElementById('logout');
+if (logoutLink) {
+    logoutLink.addEventListener('click', async function (e) {
+        e.preventDefault();
+        
+        try {
+            const token = localStorage.getItem('token');
+            await fetch('http://studelist-app-api.vercel.app/api/auth/logout', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+        } catch (error) {
+            console.error('Logout error:', error);
+        } finally {
+            localStorage.removeItem('token');
+            localStorage.removeItem('userData');
+            window.location.href = 'login.html';
+        }
+    });
+}

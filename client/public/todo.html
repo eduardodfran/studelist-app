@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Studelist - Todo</title>
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="todo.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Emilys+Candy&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+  </head>
+  <body>
+
+    <!-- Mobile Top Bar -->
+    <div class="top-bar">
+      <div class="top-bar-left">
+        <div class="hamburger-menu">
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+        </div>
+        <div class="logo">Studelist</div>
+      </div>
+      <div class="top-bar-profile" id="topBarProfile">
+        <div class="profile-picture" id="topBarProfilePicture">
+          <!-- Initials will be set dynamically using JavaScript -->
+        </div>
+        <span class="profile-name" id="topBarProfileName">Loading...</span>
+      </div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-menu">
+        <h2>Studelist</h2>
+        <a href="main.html">Dashboard</a>
+        <a href="notes.html">Notes</a>
+        <a href="todo.html" class="active">To-Do</a>
+        <a href="events.html">Events</a>
+      </div>
+
+      <div class="bottom">
+        <div class="account-container-wrapper">
+          <div class="account-container" id="accountContainer">
+            <div class="profile-picture" id="profilePicture">
+              <!-- Initials will be set dynamically using JavaScript -->
+            </div>
+            <div class="account-right">
+              <h2 class="name" id="name">Loading...</h2>
+              <h5 class="email" id="email">Loading...</h5>
+            </div>
+          </div>
+          <div class="dropdown-menu" id="dropdownMenu">
+            <a href="profile-page/profile.html">Profile</a>
+            <a href="/index.html" id="logout">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content" id="mainContent">
+      <section id="todo" class="tool show">
+        <h2>To-Do List</h2>
+        <div class="todo-sections">
+            <div class="todo-container">
+                <h3>Not Started</h3>
+                <form class="todo-form">
+                    <input type="text" placeholder="Add new task..." id="todoTask" required />
+                    <button type="submit" class="add-task-btn">+</button>
+                </form>
+                <ul class="not-started-list todo-list"></ul>
+            </div>
+            
+            <div class="todo-container">
+                <h3>In Progress</h3>
+                <ul class="in-progress-list todo-list"></ul>
+            </div>
+            
+            <div class="todo-container">
+                <h3>Completed</h3>
+                <ul class="completed-list todo-list"></ul>
+            </div>
+        </div>
+    </section>
+    </div>
+
+
+    <!-- Scripts -->
+    <script src="./account-container.js"></script>
+    <script src="./todo.js"></script>
+    <script>
+      // Responsive Navigation Script
+      document.querySelector('.hamburger-menu').addEventListener('click', function() {
+        this.classList.toggle('active');
+        document.querySelector('.sidebar').classList.toggle('active');
+        document.querySelector('.overlay').classList.toggle('active');
+      });
+
+      // Close sidebar when clicking overlay
+      document.querySelector('.overlay').addEventListener('click', function() {
+        document.querySelector('.hamburger-menu').classList.remove('active');
+        document.querySelector('.sidebar').classList.remove('active');
+        this.classList.remove('active');
+      });
+
+      // Update top bar profile with user data
+      function updateTopBarProfile() {
+        const userData = JSON.parse(localStorage.getItem('userData'));
+        if (userData) {
+          document.getElementById('topBarProfileName').textContent = userData.name;
+          document.getElementById('topBarProfilePicture').textContent = userData.name.split(' ').map(n => n[0]).join('');
+        }
+      }
+
+      // Call the function when page loads
+      updateTopBarProfile();
+    </script>
+  </body>
+</html>

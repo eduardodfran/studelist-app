@@ -1,11 +1,12 @@
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '.env') });
 const mysql = require('mysql2/promise');
 
-// Update these values with your remote database credentials
 const pool = mysql.createPool({
-    host: process.env.DB_HOST,       // Remote database host
-    user: process.env.DB_USER,       // Database user
-    password: process.env.DB_PASSWORD, // Database password
-    database: process.env.DB_NAME,    // Database name
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
@@ -13,11 +14,21 @@ const pool = mysql.createPool({
 
 module.exports = {
     query: async function(sql, values) {
-        const connection = await pool.getConnection();
         try {
-            return await connection.query(sql, values);
-        } finally {
-            connection.release();
+            const connection = await pool.getConnection();
+            try {
+                // Ensure values is an array and contains only the values we want
+                const sanitizedValues = Array.isArray(values) ? values : [values];
+                console.log('Executing query:', sql, 'with values:', sanitizedValues);
+                
+                const [results] = await connection.query(sql, sanitizedValues);
+                return [results];
+            } finally {
+                connection.release();
+            }
+        } catch (error) {
+            console.error('Database query error:', error);
+            throw error;
         }
     }
 };

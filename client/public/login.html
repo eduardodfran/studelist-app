@@ -11,6 +11,7 @@
       href="https://fonts.googleapis.com/css2?family=Emilys+Candy&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <header>
@@ -21,18 +22,20 @@
             <h2>Login</h2>
             <button class="login-with-google-btn" onclick="window.location.href='https://studelist-app-api.vercel.app/api/auth/google'">Sign Up with Google</button>
             <div class="or">
-
                 <p>Or continue with email</p>
-
             </div>
 
             <input type="email" id="loginEmail" placeholder="Email">
-            <input type="password" id="loginPassword" placeholder="Password">
+            <div class="password-container">
+                <input type="password" id="loginPassword" placeholder="Password">
+                <button type="button" id="togglePassword" class="toggle-password">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
             <button id="loginButton">Login</button>
             <p id="loginStatus"></p>
             
             <p>Don't have an account? <a href="signup.html">Sign up</a></p>
-           
         </div>
         <script src="./login.js"></script>
     </div>

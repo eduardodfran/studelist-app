@@ -1,35 +1,56 @@
 const express = require('express');
-const app = express();
+const router = express.Router();
+const { query } = require('../db');
+const verifyToken = require('../middleware/verifyToken');
 
-// Mock data - replace with actual database queries
-const notes = [
-  { content: 'Finish math homework' },
-  { content: 'Study for science test' }
-];
+// Get dashboard summary
+router.get('/summary', verifyToken, async (req, res) => {
+    try {
+        const userId = req.userId;
+        console.log('Fetching dashboard summary for user:', userId);
 
-const todoItems = [
-  { task: 'Buy groceries' },
-  { task: 'Clean the room' }
-];
+        // Get notes count and recent notes
+        const [notes] = await query(
+            'SELECT id, title, content FROM notes WHERE user_id = ? ORDER BY created_at DESC LIMIT 5',
+            [userId]
+        );
 
-const events = [
-  { title: 'Math Exam', date: '2023-07-15', location: 'Room 101' },
-  { title: 'Science Fair', date: '2023-07-20', location: 'School Auditorium' }
-];
+        // Get todos count and recent todos (now using status)
+        const [todos] = await query(
+            'SELECT id, task, status FROM todo WHERE user_id = ? ORDER BY created_at DESC LIMIT 5',
+            [userId]
+        );
 
-app.get('/api/notes', (req, res) => {
-  res.json({ notes });
+        // Get events count and upcoming events
+        const [events] = await query(
+            'SELECT id, title, date, time FROM events WHERE user_id = ? AND date >= CURDATE() ORDER BY date ASC, time ASC LIMIT 5',
+            [userId]
+        );
+
+        res.json({
+            success: true,
+            summary: {
+                notes: {
+                    count: notes.length,
+                    recent: notes
+                },
+                todos: {
+                    count: todos.length,
+                    recent: todos
+                },
+                events: {
+                    count: events.length,
+                    upcoming: events
+                }
+            }
+        });
+    } catch (error) {
+        console.error('Error fetching dashboard summary:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Error fetching dashboard summary'
+        });
+    }
 });
 
-app.get('/api/todo', (req, res) => {
-  res.json({ todoItems });
-});
-
-app.get('/api/events', (req, res) => {
-  res.json({ events });
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+module.exports = router;

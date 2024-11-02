@@ -1,0 +1,438 @@
+/* Modern Theme Colors */
+:root {
+  --primary-color: #50c878;    /* Emerald green */
+  --primary-hover: #45b36a;    /* Darker emerald */
+  --secondary-color: teal;     /* Teal */
+  --accent-color: tomato;      /* Tomato */
+  --dark: #222;                /* Dark gray */
+  --success-color: #50c878;
+  --danger-color: tomato;
+  --warning-color: #ffd700;
+  --info-color: teal;
+  --background: #f8f9fa;
+  --card-bg: #ffffff;
+  --text-primary: #222;
+  --text-secondary: #4b5563;
+  --border-color: #e5e7eb;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Compact Layout */
+#events {
+  padding: 0.5rem;
+  height: calc(100vh - 2rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background-color: var(--background);
+}
+
+#events h2 {
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+  font-size: 1.75rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Event Description Textarea */
+#eventDescription {
+  resize: none;
+  height: 100px;
+  overflow-y: auto;
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+
+#eventDescription:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(80, 200, 120, 0.1);
+}
+
+/* Custom Scrollbar for Description */
+#eventDescription::-webkit-scrollbar {
+  width: 6px;
+}
+
+#eventDescription::-webkit-scrollbar-track {
+  background: var(--background);
+  border-radius: 3px;
+}
+
+#eventDescription::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 3px;
+}
+
+#eventDescription::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-hover);
+}
+
+/* Controls Container */
+.controls-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: var(--card-bg);
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.search-filter-container {
+  display: flex;
+  gap: 1rem;
+  flex: 1;
+}
+
+.search-box {
+  position: relative;
+  flex: 1;
+}
+
+.search-box i {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+}
+
+.search-box input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.search-box input:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(80, 200, 120, 0.1);
+}
+
+#categoryFilter {
+  min-width: 150px;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  background-color: white;
+  cursor: pointer;
+}
+
+/* Import/Export Buttons */
+.import-export-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-export,
+.btn-import {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.btn-export {
+  background-color: var(--secondary-color);
+}
+
+.btn-import {
+  background-color: var(--primary-color);
+}
+
+.btn-export:hover,
+.btn-import:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* Calendar Container */
+.calendar-container {
+  flex: 1;
+  background: var(--card-bg);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  min-height: 0;
+  box-shadow: var(--shadow-sm);
+}
+
+/* FullCalendar Customization */
+.fc {
+  height: 100% !important;
+  font-size: 0.85rem;
+}
+
+.fc .fc-toolbar {
+  padding: 0.5rem;
+}
+
+.fc .fc-toolbar-title {
+  font-size: 1.1rem !important;
+  color: var(--dark);
+}
+
+.fc .fc-button-primary {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+}
+
+.fc .fc-button-primary:hover {
+  background-color: var(--primary-hover) !important;
+  border-color: var(--primary-hover) !important;
+}
+
+.fc .fc-daygrid-day {
+  min-height: auto !important;
+}
+
+.fc .fc-day-today {
+  background-color: rgba(80, 200, 120, 0.1) !important;
+}
+
+/* Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 60px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(34, 34, 34, 0.5);
+}
+
+.modal-content {
+  background-color: var(--card-bg);
+  margin: 5% auto;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  box-shadow: var(--shadow-md);
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+      transform: translateY(-20px);
+      opacity: 0;
+  }
+  to {
+      transform: translateY(0);
+      opacity: 1;
+  }
+}
+
+.modal-content h3 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+}
+
+.close {
+  position: absolute;
+  right: 1rem;
+  top: 0.5rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-secondary);
+}
+
+/* Form Styles */
+.event-form {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.form-group {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(80, 200, 120, 0.1);
+}
+
+/* Category Colors */
+.fc-event.study { background-color: var(--primary-color) !important; border: none !important; }
+.fc-event.exam { background-color: var(--accent-color) !important; border: none !important; }
+.fc-event.assignment { background-color: var(--secondary-color) !important; border: none !important; }
+.fc-event.meeting { background-color: var(--warning-color) !important; border: none !important; }
+.fc-event.other { background-color: var(--dark) !important; border: none !important; }
+
+/* Submit Button */
+.submit-btn {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.submit-btn:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+/* Toast Notifications */
+#toast-container {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 1000;
+}
+
+.toast {
+  background: var(--card-bg);
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow-md);
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.toast.success {
+  border-left: 4px solid var(--primary-color);
+}
+
+.toast.error {
+  border-left: 4px solid var(--accent-color);
+}
+
+/* Responsive Design */
+@media (min-width: 768px) {
+  .form-group {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .controls-container {
+    flex-direction: column;
+  }
+  
+  .search-filter-container {
+    flex-direction: column;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-hover);
+}
+
+/* Delete Modal Styles */
+#deleteModal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(34, 34, 34, 0.5);
+}
+
+#deleteModal .modal-content {
+  background-color: var(--card-bg);
+  margin: 15% auto;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  width: 90%;
+  max-width: 400px;
+  position: relative;
+  box-shadow: var(--shadow-md);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  justify-content: flex-end;
+}
+
+.btn-danger, .btn-secondary {
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  border: none;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.btn-danger {
+  background-color: var(--danger-color);
+  color: white;
+}
+
+.btn-secondary {
+  background-color: var(--text-secondary);
+  color: white;
+}
+
+.btn-danger:hover, .btn-secondary:hover {
+  opacity: 0.9;
+}
+
+#deleteEventTitle {
+  font-weight: 500;
+}

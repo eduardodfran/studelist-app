@@ -5,10 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
     <link rel="stylesheet" href="profile.css">
+    <link
+    href="https://fonts.googleapis.com/css2?family=Emilys+Candy&display=swap"
+    rel="stylesheet"
+  />
 </head>
 <body>
     <header>
-        <h1>Profile Page</h1>
+        <div class="header-left">
+            <a href="../main.html" class="back-button">
+                <span>←</span> Back to Dashboard
+            </a>
+            <h2 class="logo">Studelist</h2>
+        </div>
+        <div class="header-right">
+            <button id="logoutBtn">Logout</button>
+        </div>
     </header>
     <div class="container">
         <div class="sidebar">
@@ -45,15 +57,29 @@
                 </div>
                 <div class="field">
                     <label for="bio">Bio:</label>
-                    <textarea id="bio" placeholder="Bio..."></textarea>
+                    <div class="editable">
+                        <span id="bioSpan"></span>
+                        <textarea id="bio" style="display: none;" placeholder="Tell us about yourself..."></textarea>
+                        <button class="edit-btn" data-field="bio">Edit</button>
+                    </div>
                 </div>
+                
                 <div class="field">
                     <label for="socialLinks">Social Links:</label>
-                    <input type="text" id="socialLinks" placeholder="Social Links...">
+                    <div class="editable">
+                        <span id="socialLinksSpan"></span>
+                        <input type="text" id="socialLinks" style="display: none;" placeholder="Your social media links...">
+                        <button class="edit-btn" data-field="socialLinks">Edit</button>
+                    </div>
                 </div>
+                
                 <div class="field">
                     <label for="additionalInfo">Additional Information:</label>
-                    <textarea id="additionalInfo" placeholder="Additional information..."></textarea>
+                    <div class="editable">
+                        <span id="additionalInfoSpan"></span>
+                        <textarea id="additionalInfo" style="display: none;" placeholder="Additional information..."></textarea>
+                        <button class="edit-btn" data-field="additionalInfo">Edit</button>
+                    </div>
                 </div>
                 <div class="field">
                     <label for="password">Password:</label>
