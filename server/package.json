@@ -4,8 +4,8 @@
   "description": "Studelist is a web application that helps students manage their academic tasks efficiently.",
   "main": "server.js",
   "scripts": {
-    "start": "node server/index.js",
-    "dev": "nodemon server/index.js"
+    "start": "node server/api/index.js",
+    "dev": "nodemon server/api/index.js"
   },
   "author": "Wakin",
   "license": "MIT",
