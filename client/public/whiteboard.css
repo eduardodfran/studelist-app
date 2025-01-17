@@ -1,0 +1,60 @@
+.whiteboard-container {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px;
+}
+
+.whiteboard-tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 10px;
+}
+
+.tool-group {
+    display: flex;
+    gap: 10px;
+}
+
+.tool-btn {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tool-btn:hover {
+    background: #e9ecef;
+}
+
+.tool-btn.active {
+    background: #2ecc71;
+    color: white;
+}
+
+#canvas {
+    width: 100%;
+    height: calc(100vh - 300px);
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+}
+
+#colorPicker {
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#brushSize {
+    width: 100px;
+}
